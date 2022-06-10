@@ -1,2 +1,5 @@
-# ts-random
-Utils function to generate random data
+`ts-random`
+
+# TypeScript Random
+
+Utils function to generate random data.
