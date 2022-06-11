@@ -1,4 +1,4 @@
-import { generateRandomNumber } from "@mantlebee/ts-core";
+import { generateRandomNumber } from "@/numbers";
 
 import { GenerateRandomDateOptions } from "./types";
 
