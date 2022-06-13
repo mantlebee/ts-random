@@ -26,6 +26,12 @@ describe("common", () => {
             randoms.push(extractRandomItem([defaultItem]));
           expect(randoms.every((a) => a === defaultItem)).toBeTruthy();
         });
+        it("If extractPhysically is true, the extracted item will not be in the list anymore", () => {
+          const list = [...items];
+          const random = extractRandomItem(list, true);
+          expect(list.length).toBe(1);
+          expect(list.find((a) => a === random)).toBeUndefined();
+        });
       });
     });
   });
