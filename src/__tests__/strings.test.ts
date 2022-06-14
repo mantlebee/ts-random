@@ -43,10 +43,10 @@ describe("common", () => {
             expect(random).toMatch(/^[A-Z][a-z]{4}$/);
           });
         });
-        it("Generates a random lowercase string with first letter uppercase; length is variable from 3 to 5", () => {
-          const pattern = "Aa{3,5}";
+        it("Generates a random lowercase string with first letter uppercase; length is variable from 8 to 12", () => {
+          const pattern = "Aa{8,12}";
           const random = generateRandomStringFromPattern(pattern);
-          expect(random).toMatch(/^[A-Z][a-z]{3,5}$/);
+          expect(random).toMatch(/^[A-Z][a-z]{8,12}$/);
         });
         it("Generates a random credit card compliant string", () => {
           const patterns = ["0000-0000-0000-0000", "0{4}-0{4}-0{4}-0{4}"];
@@ -57,15 +57,19 @@ describe("common", () => {
         });
         it("Generates a random italian IBAN compliant string", () => {
           //IT60X0542811101000000123456
-          const pattern = "(IT)00A0000000000000000000000";
-          const random = generateRandomStringFromPattern(pattern);
-          expect(random).toMatch(/^IT[0-9]{2}[A-Z][0-9]{22}$/);
+          const patterns = ["(IT)00A0000000000000000000000", "(IT)00A0{22}"];
+          patterns.forEach((a) => {
+            const random = generateRandomStringFromPattern(a);
+            expect(random).toMatch(/^IT[0-9]{2}[A-Z][0-9]{22}$/);
+          });
         });
         it("Generates a random austrian IBAN compliant string", () => {
           // AT611904300234573201
-          const pattern = "(AT)000000000000000000";
-          const random = generateRandomStringFromPattern(pattern);
-          expect(random).toMatch(/^AT[0-9]{18}$/);
+          const patterns = ["(AT)000000000000000000", "(AT)0{18}"];
+          patterns.forEach((a) => {
+            const random = generateRandomStringFromPattern(a);
+            expect(random).toMatch(/^AT[0-9]{18}$/);
+          });
         });
       });
     });

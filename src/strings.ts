@@ -34,12 +34,13 @@ export function generateRandomStringFromPattern(pattern: string): string {
     // a, A, 0
     else if (/[aA0]/.test(char) && !skipReplace) {
       const nextChars = chars.slice(index + 1).join("");
-      if (/^\{\d\}/.test(nextChars)) {
-        muliplier = parseInt(chars[index + 2]);
+      if (/^\{\d*\}/.test(nextChars)) {
+        muliplier = parseInt(nextChars.replace(/\{|\}/g, ""));
       }
-      if (/^\{\d,\d\}/.test(nextChars)) {
-        const max = parseInt(chars[index + 4]);
-        const min = parseInt(chars[index + 2]);
+      if (/^\{\d*,\d*\}/.test(nextChars)) {
+        const range = nextChars.replace(/\{|\}/g, "").split(",");
+        const max = parseInt(range[0]);
+        const min = parseInt(range[1]);
         muliplier = generateRandomNumber(max, min);
       }
       let replaceWith = "";
@@ -65,5 +66,5 @@ export function generateRandomStringFromPattern(pattern: string): string {
       muliplier = 1;
     }
   });
-  return chars.join("").replace(/\(|\)|\{\d\}|\{\d,\d\}/g, "");
+  return chars.join("").replace(/\(|\)|\{\d*\}|\{\d*,\d*\}/g, "");
 }
