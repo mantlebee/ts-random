@@ -12,6 +12,7 @@
     "build": "rollup --config && tsc-alias",
     "coverage": "jest --coverage --collectCoverageFrom='./src/**'",
     "doc": "typedoc",
+    "doc:publish": "npm run doc && node ./gh-pages.js",
     "prepublishOnly": "npm run build && npm run doc",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "8.3.2",
     "@types/jest": "24.0.19",
+    "gh-pages": "^6.0.0",
     "jest": "26.6.3",
     "rollup": "2.75.5",
     "rollup-plugin-cleaner": "1.0.0",

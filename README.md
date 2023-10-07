@@ -17,14 +17,14 @@ import {
 generateRandomBoolean(); // returns true or false
 
 // Generates a random number between 0 and 10.
-generateRandomNumber(10); // eg. 7
+generateRandomNumber(100); // eg. 42
 // Generates a random number between 1 and 10.
-generateRandomNumber(10, 1); // eg. 5
+generateRandomNumber(10, 1); // eg. 7
 // Generates a random number between 0 and 1.
-generateRandomNumber(0, 1, 2); // eg. 0.24
+generateRandomNumber(0, 1, 2); // eg. 0.42
 
 // Generates a random telephone number.
-generateRandomStringFromPattern("+000-00000"); // eg. +333-4118
+generateRandomStringFromPattern("+000-00000"); // eg. +333-41187
 // Generates a random credit card number.
 generateRandomStringFromPattern("0000-0000-0000-0000"); // eg. 3244-6512-9983-2379
 // Generates a random italian IBAN compliant string.
