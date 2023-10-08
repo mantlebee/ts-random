@@ -3,11 +3,188 @@
 <a href="#typescript-random" id="typescript-random" style="color: inherit; text-decoration: none;">
   <h1>TypeScript Random</h1>
 </a>
-<p>Utilities functions to generate or extract random data.</p>
+<p>Utilities functions to generate random data or extract random data from lists.</p>
+<p>Utilities about random data generation are spearated by return type:</p>
+<ul>
+<li><a href="#boolean">Boolean</a><ul>
+<li><a href="#generaterandomboolean"><code>generateRandomBoolean</code></a></li>
+</ul>
+</li>
+<li><a href="#color">Color</a><ul>
+<li><a href="#generaterandomcolor"><code>generateRandomColor</code></a></li>
+</ul>
+</li>
+<li><a href="#number">Number</a><ul>
+<li><a href="#generaterandomnumber"><code>generateRandomNumber</code></a></li>
+</ul>
+</li>
+<li><a href="#string">String</a><ul>
+<li><a href="#generaterandomstringfromchars"><code>generateRandomStringFromChars</code></a></li>
+<li><a href="#generaterandomstringfrompattern"><code>generateRandomStringFromPattern</code></a></li>
+</ul>
+</li>
+</ul>
+<p>There is also a section about random data exctraction from lists:</p>
+<ul>
+<li><a href="#array">Array</a><ul>
+<li><a href="#extractrandomitem"><code>extractRandomItem</code></a></li>
+<li><a href="#extractrandomitems"><code>extractRandomItems</code></a></li>
+</ul>
+</li>
+</ul>
 
-<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
-  <h4>Examples</h4>
+<a href="#why" id="why" style="color: inherit; text-decoration: none;">
+  <h2>Why</h2>
 </a>
-<pre><code class="language-ts"><span class="hl-5">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-6">generateRandomBoolean</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">generateRandomNumber</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-6">generateRandomStringFromPattern</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Random boolean</span><br/><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(); </span><span class="hl-3">// returns true or false</span><br/><br/><span class="hl-3">// Generates a random number between 0 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">100</span><span class="hl-1">); </span><span class="hl-3">// eg. 42</span><br/><span class="hl-3">// Generates a random number between 1 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">10</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">); </span><span class="hl-3">// eg. 7</span><br/><span class="hl-3">// Generates a random number between 0 and 1.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">); </span><span class="hl-3">// eg. 0.42</span><br/><br/><span class="hl-3">// Generates a random telephone number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;+000-00000&quot;</span><span class="hl-1">); </span><span class="hl-3">// eg. +333-41187</span><br/><span class="hl-3">// Generates a random credit card number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">); </span><span class="hl-3">// eg. 3244-6512-9983-2379</span><br/><span class="hl-3">// Generates a random italian IBAN compliant string.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">); </span><span class="hl-3">// eg. IT60X0542811101000000123456</span><br/><span class="hl-3">// Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;Aa{8,12}&quot;</span><span class="hl-1">); </span><span class="hl-3">// eg. Rdnaetdaw</span><br/><br/><span class="hl-3">// etc.</span><br/><span class="hl-3">// more helpers functions for date, strings, colors and to extract random values from arrays</span>
+<p>The project borns to support another repository, <a href="https://github.com/mantlebee/fake-data-only"><code>@mantlebee/fake-data-only</code></a>, which allows to generate tables of fake data, with specific columns type and restrictions and related data between tables. I decided to extract the random data generation in order to have a smaller and indipendent project.</p>
+
+<a href="#how-to" id="how-to" style="color: inherit; text-decoration: none;">
+  <h2>How To</h2>
+</a>
+<p>Let&#39; take a look at the utilities functions, separated by return type</p>
+
+<a href="#array" id="array" style="color: inherit; text-decoration: none;">
+  <h3>Array</h3>
+</a>
+<p>Utilities about random data extraction from lists. Extracted data can be removed or not from the list.</p>
+
+<a href="#extractrandomitem" id="extractrandomitem" style="color: inherit; text-decoration: none;">
+  <h4><code>extractRandomItem</code></h4>
+</a>
+<p>Extracts a random item from an array. The extracted item can be removed or not from the array.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItem</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-7">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><br/><span class="hl-1">): </span><span class="hl-6">TItem</span><span class="hl-1">;</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">extractRandomItem</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">, </span><span class="hl-2">3</span><span class="hl-1">];</span><br/><br/><span class="hl-3">// Extracting a random number, without removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// eg. 3</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2,3]</span><br/><br/><span class="hl-3">// Extracting a random number, removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. 3</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2]</span>
+</code></pre>
+
+<a href="#extractrandomitems" id="extractrandomitems" style="color: inherit; text-decoration: none;">
+  <h4><code>extractRandomItems</code></h4>
+</a>
+<p>Extracts a sub-list of items from an array. The length of the sub-list is random. The extracted items can be removed or not from the array.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItems</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-7">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><br/><span class="hl-1">): </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;;</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">extractRandomItems</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">, </span><span class="hl-2">3</span><span class="hl-1">];</span><br/><br/><span class="hl-3">// Extracting random items of random length, without removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// eg. [1,3]</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2,3]</span><br/><br/><span class="hl-3">// Extracting random items of random length, removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. [1,3]</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [2]</span>
+</code></pre>
+
+<a href="#boolean" id="boolean" style="color: inherit; text-decoration: none;">
+  <h3>Boolean</h3>
+</a>
+<p>Utilities about random boolean generation.</p>
+
+<a href="#generaterandomboolean" id="generaterandomboolean" style="color: inherit; text-decoration: none;">
+  <h4><code>generateRandomBoolean</code></h4>
+</a>
+<p>Generates a random boolean value.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(): </span><span class="hl-6">boolean</span><span class="hl-1">;</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomBoolean</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(); </span><span class="hl-3">// true or false</span>
+</code></pre>
+
+<a href="#color" id="color" style="color: inherit; text-decoration: none;">
+  <h3>Color</h3>
+</a>
+<p>Utilities about random color generation. Color utilities refer to the <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/interfaces.ts"><code>IColor</code></a> interface and the <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/models.ts"><code>Color</code></a> class from the <a href="https://github.com/mantlebee/ts-core"><code>@mantlebee/ts-core</code></a> repository.</p>
+
+<a href="#generaterandomcolor" id="generaterandomcolor" style="color: inherit; text-decoration: none;">
+  <h4><code>generateRandomColor</code></h4>
+</a>
+<p>Generates a random <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/interfaces.ts"><code>IColor</code></a> instance. Colors can be opaque or have a random level of transparency. It is possible to restrict the range of colors between to choose, like reds only.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-7">transparent</span><span class="hl-1"> = </span><span class="hl-5">false</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-7">from</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-7">to</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">255</span><span class="hl-1">)</span><br/><span class="hl-1">): </span><span class="hl-6">IColor</span><span class="hl-1">;</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">Color</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomColor</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generate a random and opaque color</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(); </span><span class="hl-3">// eg. {alpha: 1, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-3">// Generate a random color with random transparency</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. {alpha: 0.5, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-3">// Generate a random opaque red color</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">lightRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">204</span><span class="hl-1">, </span><span class="hl-2">204</span><span class="hl-1">); </span><span class="hl-3">// rgb</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">darkRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">51</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">); </span><span class="hl-3">// rgb</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">false</span><span class="hl-1">, </span><span class="hl-7">lightRed</span><span class="hl-1">, </span><span class="hl-7">darkRed</span><span class="hl-1">); </span><span class="hl-3">// eg. {alpha: 1, blue: 0, green: 0, red: 153}</span>
+</code></pre>
+
+<a href="#number" id="number" style="color: inherit; text-decoration: none;">
+  <h3>Number</h3>
+</a>
+<p>Utilities about random integer and float number generation.</p>
+
+<a href="#generaterandomnumber" id="generaterandomnumber" style="color: inherit; text-decoration: none;">
+  <h4><code>generateRandomNumber</code></h4>
+</a>
+<p>Generates a random integer/float number between the given min and max values, both included. To return an integer leave <code>decimals</code> to 0. If <code>decimals</code> is greater than 0, the max value will be an integer anyway.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">max</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">, </span><span class="hl-7">min</span><span class="hl-1"> = </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-7">decimals</span><span class="hl-1"> = </span><span class="hl-2">0</span><span class="hl-1">): </span><span class="hl-6">number</span><span class="hl-1">;</span>
+</code></pre>
+<p>Examples</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomNumber</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generates a random number between 0 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">100</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 42</span><br/><br/><span class="hl-3">// Generates a random number between 1 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">10</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 7</span><br/><br/><span class="hl-3">// Generates a random number between 0 and 1.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 0.42</span>
+</code></pre>
+
+<a href="#string" id="string" style="color: inherit; text-decoration: none;">
+  <h3>String</h3>
+</a>
+<p>Utilities to generate random strings. It is possible to choose between a chars array or give a pattern.</p>
+
+<a href="#generaterandomstringfromchars" id="generaterandomstringfromchars" style="color: inherit; text-decoration: none;">
+  <h4><code>generateRandomStringFromChars</code></h4>
+</a>
+<p>Generates a random string from the given chars and of the given length.</p>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-7">chars</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">, </span><span class="hl-7">length</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">): </span><span class="hl-6">string</span><span class="hl-1">;</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-3">// Generates a random string of 5 chars chosen between X and Y.</span><br/><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-4">&quot;XY&quot;</span><span class="hl-1">, </span><span class="hl-2">5</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. XXYXY</span>
+</code></pre>
+
+<a href="#generaterandomstringfrompattern" id="generaterandomstringfrompattern" style="color: inherit; text-decoration: none;">
+  <h4><code>generateRandomStringFromPattern</code></h4>
+</a>
+<p>Generates a random string from the given pattern. The length of the string depends on pattern itself.</p>
+<p>Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, ecc.</p>
+<p>Patterns are defined by special chars, escape brackets and repeater brackets:</p>
+<table>
+<thead>
+<tr>
+<th>Special Chars</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>A</code></strong></td>
+<td>random uppercase letter</td>
+</tr>
+<tr>
+<td><strong><code>a</code></strong></td>
+<td>random lowercase letter</td>
+</tr>
+<tr>
+<td><strong><code>0</code></strong></td>
+<td>random integer number</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Escape brackets</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>(</code></strong> ... <strong><code>)</code></strong></td>
+<td>chars inside are not considered special chars</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Repeater brackets</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>{</code></strong> n <strong><code>}</code></strong></td>
+<td>repeats previous special char n-1 times</td>
+</tr>
+<tr>
+<td><strong><code>{</code></strong> n <strong><code>,</code></strong> M <strong><code>}</code></strong></td>
+<td>repeats previous special char between n and M times minus one</td>
+</tr>
+</tbody></table>
+<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-7">pattern</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">): </span><span class="hl-6">string</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomStringFromPattern</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generates a random telephone number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;+000-00000&quot;</span><span class="hl-1">) </span><span class="hl-3">// or &quot;+0{3}-0{5}&quot;</span><br/><span class="hl-3">// eg. +333-41187</span><br/><br/><span class="hl-3">// Generates a random credit card number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">) </span><span class="hl-3">// or &quot;0{4}-0{4}-0{4}-0{4}&quot;</span><br/><span class="hl-3">// eg. 3244-6512-9983-2379</span><br/><br/><span class="hl-3">// Generates a random italian IBAN compliant string.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">)</span><br/><span class="hl-3">// eg. IT60X0542811101000000123456</span><br/><br/><span class="hl-3">// Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;Aa{8,12}&quot;</span><span class="hl-1">)</span><br/><span class="hl-3">// eg. Rdnaetdaw</span>
 </code></pre>
 </div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-type-alias"><a href="modules.html#GenerateRandomDateOptions" class="tsd-kind-icon">Generate<wbr/>Random<wbr/>Date<wbr/>Options</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#extractRandomItem" class="tsd-kind-icon">extract<wbr/>Random<wbr/>Item</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#extractRandomItems" class="tsd-kind-icon">extract<wbr/>Random<wbr/>Items</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomBoolean" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Boolean</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomColor" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Color</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomDate" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Date</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomNumber" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Number</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomStringFromChars" class="tsd-kind-icon">generate<wbr/>Random<wbr/>String<wbr/>From<wbr/>Chars</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomStringFromPattern" class="tsd-kind-icon">generate<wbr/>Random<wbr/>String<wbr/>From<wbr/>Pattern</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
