@@ -3,7 +3,7 @@ import { List } from "@mantlebee/ts-core";
 import { generateRandomNumber } from "./numbers";
 
 /**
- * Extracts a random item from a list of items. The extracted item can be removed by the array.
+ * Extracts a random item from an array. The extracted item can be removed or not from the array.
  * @param items Items from which to extract a random one.
  * @param extractPhysically If true, the random item is removed from the list.
  * @returns a random item from a list.
@@ -19,10 +19,10 @@ export function extractRandomItem<TItem>(
 }
 
 /**
- * Extracts a sub-list of random count a list of items. The extracted items can be removed by the array.
+ * Extracts a sub-list of items from an array. The length of the sub-list is random. The extracted items can be removed or not from the array.
  * @param items Items from which to extract a sub-list.
- * @param extractPhysically If true, the random items are removed from the list.
- * @returns a sub-list of random items.
+ * @param extractPhysically If true, the random picked items are removed from the list.
+ * @returns a sub-list of the items array.
  */
 export function extractRandomItems<TItem>(
   items: List<TItem>,
