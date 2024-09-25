@@ -1,6 +1,6 @@
 {
   "name": "@mantlebee/ts-random",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Utils function to generate random data.",
   "main": "dist/index.js",
   "types": "dist/src/index.d.ts",

@@ -74,15 +74,43 @@ export function generateRandomStringFromPattern(pattern: string): string {
   let skipReplace = false;
   let repeats = 1;
   chars.forEach((char, index) => {
-    // (, {
-      // if open bracket, skips special chars replacement
-    if (/\(|\{/.test(char)) skipReplace = true;
-    // ), }
+    repeats = 1;
+    // (, [, {
+    // if open bracket, skips special chars replacement
+    if (/\(|\[|\{/.test(char)) skipReplace = true;
+    // ), ], }
     // if close bracket, returns to replace special chars
-    else if (/\)|\}/.test(char)) skipReplace = false;
-    // a, A, 0
+    else if (/\)|\]|\}/.test(char)) skipReplace = false;
+    else if (/0/.test(char) && !skipReplace) {
+      let max = 9;
+      let min = 0;
+      let nextChars = chars.slice(index + 1).join("");
+      if (/^\[\d*,\d*\]/.test(nextChars)) {
+        const range = nextChars
+          .substring(0, 4)
+          .replace(/\[|\]/g, "")
+          .split(",");
+        max = parseInt(range[1]);
+        min = parseInt(range[0]);
+        nextChars = chars.slice(index + 6).join("");
+      }
+      if (/^\{\d*,\d*\}/.test(nextChars)) {
+        const range = nextChars.replace(/\{|\}/g, "").split(",");
+        const _max = parseInt(range[0]);
+        const _min = parseInt(range[1]);
+        repeats = generateRandomNumber(_max, _min);
+      } // {n}
+      else if (/^\{\d*\}/.test(nextChars))
+        repeats = parseInt(nextChars.replace(/\{|\}/g, ""));
+      // repleaces the special char
+      let replaceWith = "";
+      for (let i = 0; i < repeats; ++i)
+        replaceWith += generateRandomNumber(max, min);
+      chars[index] = replaceWith;
+    }
+    // a, A
     // if special chars, replaces it (and repeats it, if next chars are Repeater brackets)
-    else if (/[aA0]/.test(char) && !skipReplace) {
+    else if (/[aA]/.test(char) && !skipReplace) {
       // get next chars to update the repeats variable
       const nextChars = chars.slice(index + 1).join("");
       // {n,M}
@@ -110,13 +138,9 @@ export function generateRandomStringFromPattern(pattern: string): string {
               1
             );
             break;
-          case "0":
-            replaceWith += generateRandomStringFromChars(getNumberChars(), 1);
-            break;
         }
       chars[index] = replaceWith;
-      repeats = 1;
     }
   });
-  return chars.join("").replace(/\(|\)|\{\d*\}|\{\d*,\d*\}/g, "");
+  return chars.join("").replace(/\(|\)|\[\d*,\d*\]|\{\d*\}|\{\d*,\d*\}/g, "");
 }
