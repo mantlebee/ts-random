@@ -1,8 +1,4 @@
-import {
-  getLowercaseChars,
-  getNumberChars,
-  getUppercaseChars,
-} from "@mantlebee/ts-core";
+import { PatternParser } from "@/support";
 
 import { generateRandomNumber } from "./numbers";
 
@@ -24,7 +20,8 @@ export function generateRandomStringFromChars(
 ): string {
   let str = "";
   for (let i = 0; i < length; i++) {
-    str += chars.charAt(Math.floor(Math.random() * chars.length));
+    const randomIndex = generateRandomNumber(chars.length - 1);
+    str += chars.charAt(randomIndex);
   }
   return str;
 }
@@ -37,6 +34,8 @@ export function generateRandomStringFromChars(
  *      - A     : random uppercase letter
  *      - a     : random lowercase letter
  *      - 0     : random integer number
+ *    Custom Chars:
+ *      - mm    : two-digit month (01 for January)
  *    Escape brackets:
  *      - ()    : chars inside are not considered special chars
  *    Repeater brackets:
@@ -70,77 +69,5 @@ export function generateRandomStringFromChars(
  * @returns a random string from the given pattern.
  */
 export function generateRandomStringFromPattern(pattern: string): string {
-  const chars = pattern.split("");
-  let skipReplace = false;
-  let repeats = 1;
-  chars.forEach((char, index) => {
-    repeats = 1;
-    // (, [, {
-    // if open bracket, skips special chars replacement
-    if (/\(|\[|\{/.test(char)) skipReplace = true;
-    // ), ], }
-    // if close bracket, returns to replace special chars
-    else if (/\)|\]|\}/.test(char)) skipReplace = false;
-    else if (/0/.test(char) && !skipReplace) {
-      let max = 9;
-      let min = 0;
-      let nextChars = chars.slice(index + 1).join("");
-      if (/^\[\d*,\d*\]/.test(nextChars)) {
-        const range = nextChars
-          .substring(0, 4)
-          .replace(/\[|\]/g, "")
-          .split(",");
-        max = parseInt(range[1]);
-        min = parseInt(range[0]);
-        nextChars = chars.slice(index + 6).join("");
-      }
-      if (/^\{\d*,\d*\}/.test(nextChars)) {
-        const range = nextChars.replace(/\{|\}/g, "").split(",");
-        const _max = parseInt(range[0]);
-        const _min = parseInt(range[1]);
-        repeats = generateRandomNumber(_max, _min);
-      } // {n}
-      else if (/^\{\d*\}/.test(nextChars))
-        repeats = parseInt(nextChars.replace(/\{|\}/g, ""));
-      // repleaces the special char
-      let replaceWith = "";
-      for (let i = 0; i < repeats; ++i)
-        replaceWith += generateRandomNumber(max, min);
-      chars[index] = replaceWith;
-    }
-    // a, A
-    // if special chars, replaces it (and repeats it, if next chars are Repeater brackets)
-    else if (/[aA]/.test(char) && !skipReplace) {
-      // get next chars to update the repeats variable
-      const nextChars = chars.slice(index + 1).join("");
-      // {n,M}
-      if (/^\{\d*,\d*\}/.test(nextChars)) {
-        const range = nextChars.replace(/\{|\}/g, "").split(",");
-        const max = parseInt(range[0]);
-        const min = parseInt(range[1]);
-        repeats = generateRandomNumber(max, min);
-      } // {n}
-      else if (/^\{\d*\}/.test(nextChars))
-        repeats = parseInt(nextChars.replace(/\{|\}/g, ""));
-      // repleaces the special char
-      let replaceWith = "";
-      for (let i = 0; i < repeats; ++i)
-        switch (char) {
-          case "a":
-            replaceWith += generateRandomStringFromChars(
-              getLowercaseChars(),
-              1
-            );
-            break;
-          case "A":
-            replaceWith += generateRandomStringFromChars(
-              getUppercaseChars(),
-              1
-            );
-            break;
-        }
-      chars[index] = replaceWith;
-    }
-  });
-  return chars.join("").replace(/\(|\)|\[\d*,\d*\]|\{\d*\}|\{\d*,\d*\}/g, "");
+  return new PatternParser().parse(pattern);
 }

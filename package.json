@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/mantlebee/ts-random#readme",
   "dependencies": {
-    "@mantlebee/ts-core": "0.13.0"
+    "@mantlebee/ts-core": "0.24.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "8.3.2",

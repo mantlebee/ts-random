@@ -200,23 +200,27 @@ Patterns allow to generate strings like telephone numbers, credit card numbers, 
 
 Patterns are defined by special chars, escape brackets and repeater brackets:
 
-|Special Chars||
-|-|-|
-|**`A`**|random uppercase letter|
-|**`a`**|random lowercase letter|
-|**`0`**|random integer number|
+| Special Chars |                         |
+| ------------- | ----------------------- |
+| **`A`**       | random uppercase letter |
+| **`a`**       | random lowercase letter |
+| **`0`**       | random integer number   |
 
-|Escape brackets||
-|-|-|
-|**`(`** ... **`)`**|chars inside are not considered special chars|
+| Custom Chars |                                  |
+| ------------ | -------------------------------- |
+| **`mm`**     | two-digit month (01 for January) |
 
-|Repeater brackets||
-|-|-|
-|**`{`** n **`}`**|repeats previous special char n-1 times|
-|**`{`** n **`,`** M **`}`**|repeats previous special char between n and M times minus one|
+| Escape brackets     |                                               |
+| ------------------- | --------------------------------------------- |
+| **`(`** ... **`)`** | chars inside are not considered special chars |
+
+| Repeater brackets           |                                                               |
+| --------------------------- | ------------------------------------------------------------- |
+| **`{`** n **`}`**           | repeats previous special char n-1 times                       |
+| **`{`** n **`,`** M **`}`** | repeats previous special char between n and M times minus one |
 
 ```ts
-function generateRandomStringFromPattern(pattern: string): string
+function generateRandomStringFromPattern(pattern: string): string;
 ```
 
 Examples:
@@ -225,18 +229,22 @@ Examples:
 import { generateRandomStringFromPattern } from "@mantlebee/ts-random";
 
 // Generates a random telephone number.
-generateRandomStringFromPattern("+000-00000") // or "+0{3}-0{5}"
+generateRandomStringFromPattern("+000-00000"); // or "+0{3}-0{5}"
 // eg. +333-41187
 
+// Generates a random card due-date.
+generateRandomStringFromPattern("mm/00");
+// eg. 05/24
+
 // Generates a random credit card number.
-generateRandomStringFromPattern("0000-0000-0000-0000") // or "0{4}-0{4}-0{4}-0{4}"
+generateRandomStringFromPattern("0000-0000-0000-0000"); // or "0{4}-0{4}-0{4}-0{4}"
 // eg. 3244-6512-9983-2379
 
 // Generates a random italian IBAN compliant string.
-generateRandomStringFromPattern("(IT)00A0{22}")
+generateRandomStringFromPattern("(IT)00A0{22}");
 // eg. IT60X0542811101000000123456
 
 // Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.
-generateRandomStringFromPattern("Aa{8,12}")
+generateRandomStringFromPattern("Aa{8,12}");
 // eg. Rdnaetdaw
 ```

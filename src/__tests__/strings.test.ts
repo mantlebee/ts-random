@@ -56,9 +56,9 @@ describe("common", () => {
           });
         });
         it("Generates a valid credit card due date", () => {
-          const pattern = "0[0,1]0/0[2,4]0";
+          const pattern = "mm/00";
           const random = generateRandomStringFromPattern(pattern);
-          expect(random).toMatch(/^[0-1]\d{1}\/[2-4]\d{1}$/);
+          expect(random).toMatch(/^[0-1][1-9]\/\d{2}$/);
         });
         it("Generates a random italian IBAN compliant string", () => {
           //IT60X0542811101000000123456
