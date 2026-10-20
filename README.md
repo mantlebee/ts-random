@@ -62,7 +62,7 @@ Utilities about random data extraction from lists. Extracted data can be removed
 
 #### `extractRandomItem`
 
-Extracts a random item from an array. The extracted item can be removed or not from the array.
+Extracts a random item from an array. The extracted item can be removed or not from the array. Throws a `RangeError` if the array is empty.
 
 ```ts
 function extractRandomItem<TItem>(

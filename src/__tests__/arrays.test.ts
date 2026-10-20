@@ -38,6 +38,14 @@ describe("common", () => {
           expect(extractRandomItem(list, true)).toBe(defaultItem);
           expect(list).toEqual([]);
         });
+        it("Throws a RangeError if the list is empty", () => {
+          expect(() => extractRandomItem([])).toThrow(
+            new RangeError("extractRandomItem: empty list"),
+          );
+          expect(() => extractRandomItem([], true)).toThrow(
+            new RangeError("extractRandomItem: empty list"),
+          );
+        });
       });
       describe("extractRandomItems", () => {
         it("Extract a random sub-list from a list", () => {
@@ -67,6 +75,10 @@ describe("common", () => {
             expect(new Set(randoms).size).toBe(randoms.length);
           }
           expect(items).toHaveLength(4);
+        });
+        it("If the list is empty, an empty list is returned", () => {
+          expect(extractRandomItems([])).toEqual([]);
+          expect(extractRandomItems([], true)).toEqual([]);
         });
         it("Returns a new list, not the given one", () => {
           const list = [defaultItem];
