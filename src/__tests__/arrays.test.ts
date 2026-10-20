@@ -45,13 +45,21 @@ describe("common", () => {
           for (let i = 0; i < 100; i++) randoms.push(extractRandomItems(items));
           expect(randoms.some((a) => a.length < items.length)).toBeTruthy();
         });
-        it("If list has 1 items only, the same list is returned", () => {
+        it("Extracts from 0 to all the items", () => {
+          const lengths = new Set<number>();
+          for (let i = 0; i < 200; i++)
+            lengths.add(extractRandomItems(items).length);
+          expect(lengths).toEqual(new Set([0, 1, 2, 3, 4]));
+        });
+        it("If list has 1 items only, an empty list or the item is returned", () => {
           const randoms: List<List<Item>> = [];
           for (let i = 0; i < 100; i++)
             randoms.push(extractRandomItems([defaultItem]));
           randoms.forEach((a) => {
-            expect(a).toEqual([defaultItem]);
+            expect([[], [defaultItem]]).toContainEqual(a);
           });
+          expect(randoms.some((a) => a.length === 0)).toBeTruthy();
+          expect(randoms.some((a) => a.length === 1)).toBeTruthy();
         });
         it("Doesn't extract the same item twice", () => {
           for (let i = 0; i < 100; i++) {

@@ -89,7 +89,7 @@ console.log(items); // [1,2]
 
 #### `extractRandomItems`
 
-Extracts a sub-list of items from an array. The length of the sub-list is random. The extracted items can be removed or not from the array.
+Extracts a sub-list of items from an array. The length of the sub-list is random, from 0 to the length of the array, both included. The extracted items can be removed or not from the array.
 
 ```ts
 function extractRandomItems<TItem>(
