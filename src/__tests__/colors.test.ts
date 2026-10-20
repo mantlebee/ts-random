@@ -22,6 +22,8 @@ describe("common", () => {
           randoms.forEach((a) => {
             expect(a.alpha >= 0 && a.alpha <= 1).toBeTruthy();
           });
+          // Alpha is a float, not only 0 or 1.
+          expect(randoms.some((a) => a.alpha > 0 && a.alpha < 1)).toBeTruthy();
         });
         it("Generates a random color with rgb values between the given range", () => {
           const randoms: List<IColor> = [];
@@ -40,6 +42,16 @@ describe("common", () => {
               a.blue >= darkColor.blue && a.blue <= lightColor.blue
             ).toBeTruthy();
           });
+        });
+        it("Accepts a from color lighter than the to color", () => {
+          const lightRed = new Color(255, 204, 204);
+          const darkRed = new Color(51, 0, 0);
+          for (let i = 0; i < 100; ++i) {
+            const color = generateRandomColor(false, lightRed, darkRed);
+            expect(color.red >= 51 && color.red <= 255).toBeTruthy();
+            expect(color.green >= 0 && color.green <= 204).toBeTruthy();
+            expect(color.blue >= 0 && color.blue <= 204).toBeTruthy();
+          }
         });
       });
     });
