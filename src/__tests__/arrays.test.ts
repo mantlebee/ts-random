@@ -53,6 +53,13 @@ describe("common", () => {
             expect(a).toEqual([defaultItem]);
           });
         });
+        it("Doesn't extract the same item twice", () => {
+          for (let i = 0; i < 100; i++) {
+            const randoms = extractRandomItems(items);
+            expect(new Set(randoms).size).toBe(randoms.length);
+          }
+          expect(items).toHaveLength(4);
+        });
         it("Returns a new list, not the given one", () => {
           const list = [defaultItem];
           expect(extractRandomItems(list)).not.toBe(list);

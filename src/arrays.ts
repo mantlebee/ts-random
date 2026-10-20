@@ -32,8 +32,10 @@ export function extractRandomItems<TItem>(
     return [...items];
   }
   const randomCount = generateRandomNumber(items.length - 1);
+  // Items are always removed from the source, so none is extracted twice.
+  const source = extractPhysically ? items : [...items];
   const randomItems: List<TItem> = [];
   for (let i = 0; i < randomCount; ++i)
-    randomItems.push(extractRandomItem(items, extractPhysically));
+    randomItems.push(extractRandomItem(source, true));
   return randomItems;
 }
