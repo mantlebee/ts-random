@@ -29,7 +29,7 @@ export function extractRandomItems<TItem>(
 ): List<TItem> {
   if (items.length === 1) {
     if (extractPhysically) return items.splice(0, 1);
-    return items;
+    return [...items];
   }
   const randomCount = generateRandomNumber(items.length - 1);
   const randomItems: List<TItem> = [];

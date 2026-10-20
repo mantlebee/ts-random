@@ -53,6 +53,10 @@ describe("common", () => {
             expect(a).toEqual([defaultItem]);
           });
         });
+        it("Returns a new list, not the given one", () => {
+          const list = [defaultItem];
+          expect(extractRandomItems(list)).not.toBe(list);
+        });
         it("If extractPhysically is true, the extracted items will not be in the list anymore", () => {
           const list = [...items];
           const randoms = extractRandomItems(list, true);
