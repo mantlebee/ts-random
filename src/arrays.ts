@@ -12,7 +12,6 @@ export function extractRandomItem<TItem>(
   items: List<TItem>,
   extractPhysically = false
 ): TItem {
-  if (items.length === 1) return items[0];
   const index = generateRandomNumber(items.length - 1);
   if (extractPhysically) return items.splice(index, 1)[0];
   return items[index];

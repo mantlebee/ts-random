@@ -33,6 +33,11 @@ describe("common", () => {
           const random = extractRandomItem(list, true);
           expect(list.find((a) => a === random)).toBeUndefined();
         });
+        it("If extractPhysically is true and the list has 1 item only, the list becomes empty", () => {
+          const list = [defaultItem];
+          expect(extractRandomItem(list, true)).toBe(defaultItem);
+          expect(list).toEqual([]);
+        });
       });
       describe("extractRandomItems", () => {
         it("Extract a random sub-list from a list", () => {
