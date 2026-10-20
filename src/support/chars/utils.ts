@@ -8,16 +8,21 @@ import { generateRandomNumber } from "@/numbers";
  * generateRandomStringFromChars("XY", 5)
  * // eg. XXYXY
  * ```
+ * Chars outside the BMP, such as emojis, are kept whole: `length` counts
+ * them as one char, even if their JavaScript `length` is 2.
  * @param chars List of chars from which to generate the string.
- * @param length Length of the string to generate.
+ * @param length Number of chars of the string to generate.
  * @returns a random string from the given chars and of the given length.
  */
 export function generateRandomStringFromChars(
   chars: string,
   length: number,
 ): string {
-  if (!chars) return "";
-  return Array.from({ length }, () =>
-    chars.charAt(generateRandomNumber(chars.length - 1)),
+  // `Array.from` splits by code point, `charAt` would split emojis in halves.
+  const charsList = Array.from(chars);
+  if (!charsList.length) return "";
+  return Array.from(
+    { length },
+    () => charsList[generateRandomNumber(charsList.length - 1)],
   ).join("");
 }

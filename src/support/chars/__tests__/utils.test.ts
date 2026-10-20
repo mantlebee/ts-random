@@ -24,6 +24,24 @@ describe("common", () => {
           const random = generateRandomStringFromChars(chars, 10);
           expect(/^([a-z]|[A-Z]){10}$/.test(random)).toBeTruthy();
         });
+        it("Picks every given char", () => {
+          const chars = "abcdef";
+          const random = generateRandomStringFromChars(chars, 500);
+          expect(new Set(random)).toEqual(new Set(chars));
+        });
+        it("Keeps the chars outside the BMP, such as emojis, whole", () => {
+          const chars = "😀🎉a";
+          const random = generateRandomStringFromChars(chars, 100);
+          const randomChars = Array.from(random);
+          expect(randomChars).toHaveLength(100);
+          randomChars.forEach((a) => {
+            expect(["😀", "🎉", "a"]).toContain(a);
+          });
+        });
+        it("Returns an empty string if chars or length are empty", () => {
+          expect(generateRandomStringFromChars("", 5)).toBe("");
+          expect(generateRandomStringFromChars("abc", 0)).toBe("");
+        });
       });
     });
   });

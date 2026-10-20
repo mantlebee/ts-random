@@ -2,9 +2,9 @@ import { Tokenizer } from "@mantlebee/ts-core";
 
 import {
   BracketsRule,
+  LiteralCharRule,
   MonthRule,
   RepeatableCharacterRule,
-  SpecialCharRule,
 } from "./rules";
 
 export class PatternParser {
@@ -17,7 +17,7 @@ export class PatternParser {
       new RepeatableCharacterRule("0", updateResult),
       new RepeatableCharacterRule("A", updateResult),
       new RepeatableCharacterRule("a", updateResult),
-      new SpecialCharRule(updateResult),
+      new LiteralCharRule(updateResult),
     ]);
     tokenizer.tokenize(pattern);
     return result;

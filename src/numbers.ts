@@ -41,10 +41,13 @@ export function generateRandomNumber(
     );
   // The range is scaled to integers, e.g. [10, 12] with 2 decimals becomes
   // [1000, 1200], so the max is as likely as any other value.
-  // `toPrecision` removes floating point noise, e.g. 1.1 * 100 = 110.00000000000001.
+  // `toPrecision` removes floating point noise, e.g. 1.1 * 100 = 110.00000000000001;
+  // integers are not scaled, so they are never rounded.
   const factor = 10 ** decimals;
-  const scaledMin = Math.ceil(+(min * factor).toPrecision(12));
-  const scaledMax = Math.floor(+(max * factor).toPrecision(12));
+  const scale = (value: number) =>
+    decimals ? +(value * factor).toPrecision(15) : value;
+  const scaledMin = Math.ceil(scale(min));
+  const scaledMax = Math.floor(scale(max));
   if (scaledMin > scaledMax)
     throw new RangeError(
       `generateRandomNumber: no number with ${decimals} decimals between ${min} and ${max}`,

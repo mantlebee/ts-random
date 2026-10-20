@@ -6,7 +6,7 @@ export class MonthRule extends RuleBase {
     super((text, currentIndex) => {
       if (/^mm$/.test(text.substring(currentIndex, currentIndex + 2))) {
         const endIndex = currentIndex + 1;
-        const value = `${generateRandomNumber(1)}${generateRandomNumber(9, 1)}`;
+        const value = `${generateRandomNumber(12, 1)}`.padStart(2, "0");
         return { endIndex, match: "mm", value };
       }
       return null;

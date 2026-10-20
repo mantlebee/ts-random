@@ -2,19 +2,144 @@ import { generateRandomNumber } from "@/numbers";
 
 import { GenerateRandomDateOptions } from "./types";
 
+const MillisecondsPerDay = 24 * 60 * 60 * 1000;
+
 /**
- * Generates a random date in the given range.
- * @param startDate Starting date range, default is the Javascript standard 1970/01/01, but it could be less than that.
+ * Range of a time component (hours, minutes or seconds), both included.
+ */
+type TimeRange = { from: number; to: number; count: number };
+
+const getTimeRange = (
+  name: string,
+  from: number,
+  to: number,
+  max: number,
+): TimeRange => {
+  if (
+    !Number.isInteger(from) ||
+    !Number.isInteger(to) ||
+    from < 0 ||
+    to > max ||
+    from > to
+  )
+    throw new RangeError(
+      `generateRandomDate: invalid ${name} range ${from}-${to}`,
+    );
+  return { from, to, count: to - from + 1 };
+};
+
+/**
+ * The allowed times of a day are the combinations of the allowed hours,
+ * minutes and seconds. Sorted by time, they can be addressed by an index, as
+ * the digits of a number with mixed bases: `index = h * nM * nS + m * nS + s`.
+ */
+class TimeGrid {
+  public readonly count: number;
+
+  public constructor(
+    private readonly hours: TimeRange,
+    private readonly minutes: TimeRange,
+    private readonly seconds: TimeRange,
+  ) {
+    this.count = hours.count * minutes.count * seconds.count;
+  }
+
+  /**
+   * @returns the index of the first allowed time at or after the given one,
+   * {@link count} if there is none.
+   */
+  public getFirstIndexFrom(hours: number, minutes: number, seconds: number) {
+    const { hours: h, minutes: m, seconds: s } = this;
+    const perHour = m.count * s.count;
+    if (hours < h.from) return 0;
+    if (hours > h.to) return this.count;
+    const hourIndex = (hours - h.from) * perHour;
+    if (minutes < m.from) return hourIndex;
+    if (minutes > m.to) return hourIndex + perHour;
+    const minuteIndex = hourIndex + (minutes - m.from) * s.count;
+    if (seconds < s.from) return minuteIndex;
+    if (seconds > s.to) return minuteIndex + s.count;
+    return minuteIndex + seconds - s.from;
+  }
+
+  /**
+   * @returns hours, minutes and seconds of the allowed time with the given index.
+   */
+  public getTime(index: number): [number, number, number] {
+    const { hours: h, minutes: m, seconds: s } = this;
+    const seconds = index % s.count;
+    const minutes = Math.floor(index / s.count) % m.count;
+    const hours = Math.floor(index / (s.count * m.count));
+    return [h.from + hours, m.from + minutes, s.from + seconds];
+  }
+}
+
+/**
+ * Index of the first allowed time of the day of `date` that is not before it.
+ * Milliseconds round up to the next second, as generated dates have none.
+ */
+const getFirstIndexFromDate = (grid: TimeGrid, date: Date) => {
+  const seconds = date.getSeconds() + (date.getMilliseconds() ? 1 : 0);
+  // 23:59:59.5 rounds up to 24:00:00, after every allowed time.
+  return grid.getFirstIndexFrom(date.getHours(), date.getMinutes(), seconds);
+};
+
+/**
+ * Index of the first allowed time of the day of `date` that is after it: the
+ * allowed times at or before `date` are the ones with a lower index.
+ */
+const getEndIndexFromDate = (grid: TimeGrid, date: Date) =>
+  grid.getFirstIndexFrom(
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds() + 1,
+  );
+
+/**
+ * Number of calendar days from the day of `startDate` to the day of `endDate`,
+ * in local time. `Date.UTC` ignores daylight saving time changes.
+ */
+const getDaysBetween = (startDate: Date, endDate: Date) =>
+  (Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()) -
+    Date.UTC(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate(),
+    )) /
+  MillisecondsPerDay;
+
+/**
+ * Generates a random date in the given range, both included, whose time is
+ * within the given hours, minutes and seconds. Generated dates have no
+ * milliseconds, and each allowed second in the range has the same chance to be
+ * generated.
+ * The given dates are not modified.
+ * @example
+ * Generates a random date between 1970/01/01 and now.
+ * ```ts
+ * generateRandomDate()
+ * ```
+ * @example
+ * Generates a random date of 2024, during the office hours.
+ * ```ts
+ * generateRandomDate(new Date(2024, 11, 31, 23, 59, 59), new Date(2024, 0, 1), {
+ *   hoursFrom: 9,
+ *   hoursTo: 17,
+ * })
+ * ```
  * @param endDate Ending date range, default is now.
- * @param options Extended options for random datetime generations.
+ * @param startDate Starting date range, default is 1970/01/01 00:00:00 in local time.
+ * @param options Hours (0-23), minutes (0-59) and seconds (0-59) allowed, both included.
  * @returns a random date in the given range.
+ * @throws RangeError if a date is invalid, if `startDate` is after `endDate`,
+ * if an option is out of its range or its `from` is greater than its `to`, or
+ * if no date in the range has an allowed time.
  */
 export function generateRandomDate(
   endDate = new Date(),
-  startDate = new Date("1970-01-01"),
-  options: GenerateRandomDateOptions = {}
-) {
-  // https://stackoverflow.com/questions/31378526/generate-random-date-between-two-dates-and-times-in-javascript
+  startDate = new Date(1970, 0, 1),
+  options: GenerateRandomDateOptions = {},
+): Date {
   const {
     hoursFrom = 0,
     hoursTo = 23,
@@ -23,16 +148,34 @@ export function generateRandomDate(
     secondsFrom = 0,
     secondsTo = 59,
   } = options;
-  let date = endDate;
-  if (endDate.getTime() != startDate.getTime())
-    date = new Date(
-      +startDate + Math.random() * (endDate.getTime() - startDate.getTime())
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()))
+    throw new RangeError("generateRandomDate: invalid date");
+  if (startDate > endDate)
+    throw new RangeError("generateRandomDate: startDate is after endDate");
+  const grid = new TimeGrid(
+    getTimeRange("hours", hoursFrom, hoursTo, 23),
+    getTimeRange("minutes", minutesFrom, minutesTo, 59),
+    getTimeRange("seconds", secondsFrom, secondsTo, 59),
+  );
+  // Allowed times are numbered from the first one of the start day. The first
+  // and the last day can be partial, the ones in between are complete.
+  const firstIndex = getFirstIndexFromDate(grid, startDate);
+  const lastDayEndIndex = getEndIndexFromDate(grid, endDate);
+  const days = getDaysBetween(startDate, endDate);
+  const endIndex = days * grid.count + lastDayEndIndex;
+  if (firstIndex >= endIndex)
+    throw new RangeError(
+      "generateRandomDate: no date in the range has an allowed time",
     );
-  const hours = generateRandomNumber(hoursTo, hoursFrom);
-  const minutes = generateRandomNumber(minutesTo, minutesFrom);
-  const seconds = generateRandomNumber(secondsTo, secondsFrom);
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
-  return date;
+  const index = generateRandomNumber(endIndex - 1, firstIndex);
+  const day = Math.floor(index / grid.count);
+  const [hours, minutes, seconds] = grid.getTime(index % grid.count);
+  return new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate() + day,
+    hours,
+    minutes,
+    seconds,
+  );
 }

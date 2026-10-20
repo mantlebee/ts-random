@@ -6,7 +6,9 @@ export class BracketsRule extends RuleBase {
       if (text[currentIndex] === "(") {
         const endIndex = text.indexOf(")", currentIndex);
         if (endIndex === -1)
-          throw "BracketRule ERROR: closing bracket not found!";
+          throw new SyntaxError(
+            `generateRandomStringFromPattern: closing bracket not found for the one at index ${currentIndex}`,
+          );
         const match = text.substring(currentIndex, endIndex + 1);
         const value = text.substring(currentIndex + 1, endIndex);
         return { endIndex, match, value };

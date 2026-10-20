@@ -38,9 +38,8 @@ export class RepeatableCharacterRule extends RuleBase {
     super((text, currentIndex) => {
       if (text[currentIndex] === char) {
         if (/^.\{\d+(,\d+)?\}/.test(text.substring(currentIndex))) {
+          // The regex guarantees the closing bracket.
           const endIndex = text.indexOf("}", currentIndex);
-          if (endIndex === -1)
-            throw "RepeatableCharacterRule ERROR: closing repeat bracket not found!";
           const match = text.substring(currentIndex, endIndex + 1);
           const repeat = getRepeat(match);
           const value = getRandomChars(char, repeat);

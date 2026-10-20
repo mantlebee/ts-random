@@ -60,6 +60,9 @@ describe("common", () => {
         });
         it("Returns min if it is equal to max", () => {
           expect(generateRandomNumber(5, 5)).toBe(5);
+          expect(generateRandomNumber(2 ** 50 + 1, 2 ** 50 + 1)).toBe(
+            2 ** 50 + 1,
+          );
           expect(generateRandomNumber(0.25, 0.25, 2)).toBe(0.25);
         });
         it("Throws a RangeError if min is greater than max", () => {

@@ -326,26 +326,25 @@ Generates a random string from the given pattern. The length of the string depen
 
 Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, ecc.
 
-Patterns are defined by special chars, escape brackets and repeater brackets:
+Patterns are defined by placeholders, escape brackets and repeater brackets. Any other char is copied as it is.
 
-| Special Chars |                         |
-| ------------- | ----------------------- |
-| **`A`**       | random uppercase letter |
-| **`a`**       | random lowercase letter |
-| **`0`**       | random integer number   |
+| Placeholders |                                                     |
+| ------------ | --------------------------------------------------- |
+| **`A`**      | random uppercase letter                             |
+| **`a`**      | random lowercase letter                             |
+| **`0`**      | random digit                                        |
+| **`mm`**     | two-digit month, from 01 (January) to 12 (December) |
 
-| Custom Chars |                                  |
-| ------------ | -------------------------------- |
-| **`mm`**     | two-digit month (01 for January) |
+| Escape brackets     |                                                            |
+| ------------------- | ---------------------------------------------------------- |
+| **`(`** ... **`)`** | chars inside are copied as they are, placeholders included |
 
-| Escape brackets     |                                               |
-| ------------------- | --------------------------------------------- |
-| **`(`** ... **`)`** | chars inside are not considered special chars |
+| Repeater brackets, after `A`, `a` or `0` |                                                                |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| **`{`** n **`}`**                        | the placeholder generates n chars                              |
+| **`{`** n **`,`** M **`}`**              | the placeholder generates between n and M chars, both included |
 
-| Repeater brackets           |                                                               |
-| --------------------------- | ------------------------------------------------------------- |
-| **`{`** n **`}`**           | repeats previous special char n-1 times                       |
-| **`{`** n **`,`** M **`}`** | repeats previous special char between n and M times minus one |
+It throws a `SyntaxError` if an escape bracket is not closed, and a `RangeError` if the min of a repeater is greater than its max, e.g. `a{12,8}`.
 
 ```ts
 function generateRandomStringFromPattern(pattern: string): string;
@@ -372,7 +371,7 @@ generateRandomStringFromPattern("0000-0000-0000-0000"); // or "0{4}-0{4}-0{4}-0{
 generateRandomStringFromPattern("(IT)00A0{22}");
 // eg. IT60X0542811101000000123456
 
-// Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.
+// Generates a string with first letter uppercase, followed by 8 to 12 lowercase letters (9 to 13 chars in total).
 generateRandomStringFromPattern("Aa{8,12}");
 // eg. Rdnaetdaw
 ```

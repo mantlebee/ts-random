@@ -5,18 +5,18 @@ export { generateRandomStringFromChars };
 /**
  * Generates a random string from the given pattern. The length of the string depends on pattern itself.
  * Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, ecc.
- * Patterns are defined by special chars, escape brackets and repeater brackets:
- *    Special Chars:
+ * Patterns are defined by placeholders, escape brackets and repeater brackets.
+ * Any other char is copied as it is.
+ *    Placeholders:
  *      - A     : random uppercase letter
  *      - a     : random lowercase letter
- *      - 0     : random integer number
- *    Custom Chars:
- *      - mm    : two-digit month (01 for January)
+ *      - 0     : random digit
+ *      - mm    : two-digit month, from 01 (January) to 12 (December)
  *    Escape brackets:
- *      - ()    : chars inside are not considered special chars
- *    Repeater brackets:
- *      - {n}   : repeats previous special char n-1 times
- *      - {n,M} : repeats previous special char between n and M times minus one
+ *      - ()    : chars inside are copied as they are, placeholders included
+ *    Repeater brackets, after `A`, `a` or `0`:
+ *      - {n}   : the placeholder generates n chars
+ *      - {n,M} : the placeholder generates between n and M chars, both included
  * @example
  * Generates a random telephone number.
  * ```ts
@@ -36,13 +36,16 @@ export { generateRandomStringFromChars };
  * // eg. IT60X0542811101000000123456
  * ```
  * @example
- * Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.
+ * Generates a random string with first letter uppercase, followed by 8 to 12
+ * lowercase letters (9 to 13 chars in total).
  * ```ts
  * generateRandomStringFromPattern("Aa{8,12}")
  * // eg. Rdnaetdaw
  * ```
  * @param pattern Pattern for the random string.
  * @returns a random string from the given pattern.
+ * @throws SyntaxError if an escape bracket is not closed.
+ * @throws RangeError if the min of a repeater is greater than its max, e.g. `a{12,8}`.
  */
 export function generateRandomStringFromPattern(pattern: string): string {
   return new PatternParser().parse(pattern);
