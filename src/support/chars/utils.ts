@@ -16,6 +16,7 @@ export function generateRandomStringFromChars(
   chars: string,
   length: number,
 ): string {
+  if (!chars) return "";
   return Array.from({ length }, () =>
     chars.charAt(generateRandomNumber(chars.length - 1)),
   ).join("");

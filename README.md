@@ -4,6 +4,21 @@
 
 Utilities functions to generate random data or extract random data from lists.
 
+What changed in each version, and how to upgrade, is in the
+[release notes](https://github.com/mantlebee/ts-random/tree/main/docs/release-notes)
+([1.0.0](https://github.com/mantlebee/ts-random/blob/main/docs/release-notes/1.0.0.md)).
+
+## Installation
+
+`@mantlebee/ts-core` is a peer dependency: install it together with the package.
+
+```sh
+npm install @mantlebee/ts-random @mantlebee/ts-core
+```
+
+The package ships CommonJS and tree-shakable ES modules: bundlers keep only the
+functions that are imported.
+
 Utilities about random data generation are spearated by return type:
 
 - [Boolean](#boolean)
@@ -12,6 +27,12 @@ Utilities about random data generation are spearated by return type:
   - [`generateRandomColor`](#generaterandomcolor)
 - [Number](#number)
   - [`generateRandomNumber`](#generaterandomnumber)
+- [Password](#password)
+  - [`generateRandomPassword`](#generaterandompassword)
+- [Secure](#secure)
+  - [`generateSecureRandomInteger`](#generatesecurerandominteger)
+  - [`extractSecureRandomItem`](#extractsecurerandomitem)
+  - [`shuffleSecureRandomItems`](#shufflesecurerandomitems)
 - [String](#string)
   - [`generateRandomStringFromChars`](#generaterandomstringfromchars)
   - [`generateRandomStringFromPattern`](#generaterandomstringfrompattern)
@@ -21,6 +42,11 @@ There is also a section about random data exctraction from lists:
 - [Array](#array)
   - [`extractRandomItem`](#extractrandomitem)
   - [`extractRandomItems`](#extractrandomitems)
+
+Functions with `SecureRandom` in the name, and `generateRandomPassword`, use a
+cryptographically secure random generator (Web Crypto, available in browsers and
+in Node.js 19+). The others use `Math.random`: don't use them for passwords,
+tokens or other secrets.
 
 ## Why
 
@@ -148,7 +174,7 @@ Utilities about random integer and float number generation.
 
 #### `generateRandomNumber`
 
-Generates a random integer/float number between the given min and max values, both included. To return an integer leave `decimals` to 0. If `decimals` is greater than 0, the max value will be an integer anyway.
+Generates a random integer/float number between the given min and max values, both included. To return an integer leave `decimals` to 0. Every number with `decimals` digits after the decimal point, between min and max, has the same chance to be generated. It throws a `RangeError` if `min` is greater than `max`, if `decimals` is not a non-negative integer, or if no number with `decimals` digits is between min and max.
 
 ```ts
 function generateRandomNumber(max: number, min = 0, decimals = 0): number;
@@ -159,7 +185,7 @@ Examples
 ```ts
 import { generateRandomNumber } from "@mantlebee/ts-random";
 
-// Generates a random number between 0 and 10.
+// Generates a random number between 0 and 100.
 generateRandomNumber(100);
 // eg. 42
 
@@ -167,9 +193,111 @@ generateRandomNumber(100);
 generateRandomNumber(10, 1);
 // eg. 7
 
-// Generates a random number between 0 and 1.
-generateRandomNumber(0, 1, 2);
+// Generates a random number between 0 and 1, with 2 decimals.
+generateRandomNumber(1, 0, 2);
 // eg. 0.42
+```
+
+### Password
+
+Utilities about password generation. Passwords are generated from the password requirements of [`@mantlebee/ts-core`](https://github.com/mantlebee/ts-core) (`IPasswordRequirement`, `PasswordRequirementsDefault`, …).
+
+#### `generateRandomPassword`
+
+Generates a random password that satisfies the given requirements, using a cryptographically secure random generator only.
+
+```ts
+function generateRandomPassword(
+  requirements: List<IPasswordRequirement> = PasswordRequirementsDefault()
+): string;
+```
+
+- The password contains one char for each requirement with `allowedChars`, then chars picked uniformly from all the allowed chars, until it is valid for `validatePassword`. The chars are shuffled at the end.
+- The length is defined by the requirements only (e.g. `PasswordRequirementLength`): the password is as short as the requirements allow, and never more than 256 chars, to avoid infinite loops when there is no maximum length.
+- It throws a `NoAllowedCharsException` when no requirement has `allowedChars` (`code` is `GenerateRandomPasswordExceptionCodes.noAllowedChars`), or an `UnsatisfiableRequirementsException` when the requirements can't be satisfied, e.g. a `minLength` greater than a `maxLength` or a `PasswordRequirementMatchPassword` (`code` is `GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements`). Both extend the `Exception` of `@mantlebee/ts-core`.
+
+Examples:
+
+```ts
+import {
+  PasswordRequirementIncludesLowercaseLetter,
+  PasswordRequirementIncludesSymbol,
+  PasswordRequirementLength,
+  PasswordRequirementsDefault,
+} from "@mantlebee/ts-core";
+import { generateRandomPassword } from "@mantlebee/ts-random";
+
+// 8-30 chars, lowercase, uppercase, number, symbol, no whitespaces.
+generateRandomPassword(); // 8 chars, eg. "q7}Rk;bN"
+
+// 24 chars with the default categories.
+generateRandomPassword([
+  ...PasswordRequirementsDefault(),
+  new PasswordRequirementLength(24),
+]);
+
+// Lowercase letters and the symbols - and _ only, 12 chars.
+generateRandomPassword([
+  new PasswordRequirementLength(12, 12),
+  new PasswordRequirementIncludesLowercaseLetter(),
+  new PasswordRequirementIncludesSymbol("-_"),
+]); // 12 chars, eg. "kd-qe_wnz-ab"
+```
+
+### Secure
+
+Utilities that use a cryptographically secure random generator: Web Crypto (`globalThis.crypto.getRandomValues`), available in browsers and in Node.js 19+. Use them, or `generateRandomPassword`, for passwords, tokens or other secrets.
+
+#### `generateSecureRandomInteger`
+
+Generates a cryptographically secure random integer between 0 (included) and `maxExclusive` (excluded), without modulo bias. Unlike `generateRandomNumber`, the max value is **excluded**, so the result can be used directly as an index of a list of `maxExclusive` items. `maxExclusive` must be an integer between 1 and 2^32, otherwise a `RangeError` is thrown.
+
+```ts
+function generateSecureRandomInteger(maxExclusive: number): number;
+```
+
+Examples
+
+```ts
+import { generateSecureRandomInteger } from "@mantlebee/ts-random";
+
+// Rolls a dice.
+generateSecureRandomInteger(6) + 1;
+// eg. 4
+```
+
+#### `extractSecureRandomItem`
+
+Extracts a random item from an array, using a cryptographically secure random generator. The array is not modified. Throws a `RangeError` if the array is empty.
+
+```ts
+function extractSecureRandomItem<TItem>(items: List<TItem>): TItem;
+```
+
+Examples:
+
+```ts
+import { extractSecureRandomItem } from "@mantlebee/ts-random";
+
+extractSecureRandomItem(["rock", "paper", "scissors"]); // eg. "paper"
+```
+
+#### `shuffleSecureRandomItems`
+
+Returns a shuffled copy of an array (Fisher-Yates), using a cryptographically secure random generator. The array is not modified.
+
+```ts
+function shuffleSecureRandomItems<TItem>(items: List<TItem>): List<TItem>;
+```
+
+Examples:
+
+```ts
+import { shuffleSecureRandomItems } from "@mantlebee/ts-random";
+
+const items: number[] = [1, 2, 3, 4];
+shuffleSecureRandomItems(items); // eg. [3, 1, 4, 2]
+console.log(items); // [1,2,3,4]
 ```
 
 ### String

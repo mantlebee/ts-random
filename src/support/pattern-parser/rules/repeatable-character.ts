@@ -9,14 +9,16 @@ import { generateRandomStringFromChars } from "@/support/chars"; // "Circular de
 
 import { RuleBase } from "./base";
 
-const CHARS_MAP: Record<string, string> = {
-  "0": getNumberChars(),
-  A: getUppercaseChars(),
-  a: getLowercaseChars(),
+// Getters, not their results: calling them here would run code at module load,
+// which bundlers treat as a side effect and never tree-shake.
+const CHARS_MAP: Record<string, () => string> = {
+  "0": getNumberChars,
+  A: getUppercaseChars,
+  a: getLowercaseChars,
 };
 
 const getRandomChars = (char: string, length: number) => {
-  const chars = CHARS_MAP[char];
+  const chars = CHARS_MAP[char]();
   return generateRandomStringFromChars(chars, length);
 };
 

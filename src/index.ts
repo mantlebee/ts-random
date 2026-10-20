@@ -3,4 +3,6 @@ export * from "./booleans";
 export * from "./colors";
 export * from "./dates";
 export * from "./numbers";
+export * from "./passwords";
+export * from "./secure";
 export * from "./strings";
