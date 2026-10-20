@@ -142,6 +142,64 @@ describe("common", () => {
           expect(end.getTime()).toBe(startTime);
         });
 
+        describe("Daylight saving time, in Europe/Rome", () => {
+          const hour = 60 * 60 * 1000;
+
+          it("Runs in Europe/Rome", () => {
+            // Set by jest.global-setup.js: the other tests check nothing without it.
+            expect(new Date(2026, 2, 29, 2, 30).getHours()).toBe(3);
+          });
+
+          it("Stays in the range when the clocks go forward", () => {
+            // 2026-03-29 02:00 doesn't exist, the clocks go from 01:59:59 to
+            // 03:00:00: the times from 02:00 to 02:59 were moved to 03:xx.
+            const start = new Date(2026, 2, 29, 1, 59, 0);
+            const end = new Date(2026, 2, 29, 3, 0, 30);
+            const randoms = generateRandomDates(2000, end, start);
+            randoms.forEach((a) => {
+              expect(isBetween(a, start, end)).toBeTruthy();
+            });
+            // 60 seconds before the change, 31 after it.
+            expect(new Set(randoms.map((a) => a.getTime())).size).toBe(91);
+          });
+
+          it("Stays in the range when it starts in the repeated hour", () => {
+            // 2026-10-25 02:00-02:59 happens twice, at +02:00 and at +01:00.
+            // The range starts at the second 02:30: the first one is before it.
+            const start = new Date(
+              new Date(2026, 9, 25, 2, 30).getTime() + hour,
+            );
+            const end = new Date(2026, 9, 25, 3, 10, 0);
+            generateRandomDates(2000, end, start).forEach((a) => {
+              expect(isBetween(a, start, end)).toBeTruthy();
+            });
+          });
+
+          it("Generates only times that exist", () => {
+            // Hours 02:xx are allowed, but they don't exist on 2026-03-29.
+            const start = new Date(2026, 2, 28, 0, 0, 0);
+            const end = new Date(2026, 2, 30, 23, 59, 59);
+            const randoms = generateRandomDates(2000, end, start, {
+              hoursFrom: 2,
+              hoursTo: 2,
+            });
+            randoms.forEach((a) => {
+              expect(a.getHours()).toBe(2);
+            });
+            expect(new Set(randoms.map((a) => a.getDate()))).toEqual(
+              new Set([28, 30]),
+            );
+          });
+
+          it("Throws a RangeError if all the allowed times are skipped", () => {
+            const start = new Date(2026, 2, 29, 0, 0, 0);
+            const end = new Date(2026, 2, 29, 23, 59, 59);
+            expect(() =>
+              generateRandomDate(end, start, { hoursFrom: 2, hoursTo: 2 }),
+            ).toThrow(RangeError);
+          });
+        });
+
         it("Throws a RangeError if the start date is after the end date", () => {
           expect(() => generateRandomDate(startDate, endDate)).toThrow(
             RangeError,
