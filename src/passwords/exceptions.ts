@@ -3,12 +3,19 @@ import { Exception } from "@mantlebee/ts-core";
 /**
  * Codes of the exceptions thrown by {@link generateRandomPassword}.
  */
-export enum GenerateRandomPasswordExceptionCodes {
+export const GenerateRandomPasswordExceptionCodes = {
   /** No requirement has `allowedChars`, so there are no chars to pick. */
-  noAllowedChars = "NoAllowedChars",
+  noAllowedChars: "NoAllowedChars",
   /** The requirements can't be satisfied within the maximum length (256). */
-  unsatisfiableRequirements = "UnsatisfiableRequirements",
-}
+  unsatisfiableRequirements: "UnsatisfiableRequirements",
+} as const;
+
+/**
+ * A code of the exceptions thrown by {@link generateRandomPassword}: one of the
+ * values of {@link GenerateRandomPasswordExceptionCodes}.
+ */
+export type GenerateRandomPasswordExceptionCodes =
+  (typeof GenerateRandomPasswordExceptionCodes)[keyof typeof GenerateRandomPasswordExceptionCodes];
 
 /** Thrown by {@link generateRandomPassword} when no requirement has `allowedChars`. */
 export class NoAllowedCharsException extends Exception {
