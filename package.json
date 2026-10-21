@@ -41,6 +41,9 @@
     "url": "https://github.com/mantlebee/ts-random/issues"
   },
   "homepage": "https://github.com/mantlebee/ts-random#readme",
+  "engines": {
+    "node": ">=19"
+  },
   "peerDependencies": {
     "@mantlebee/ts-core": "^1.0.0"
   },
