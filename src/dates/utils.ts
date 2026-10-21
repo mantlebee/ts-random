@@ -43,12 +43,14 @@ const getTimeRange = (
  */
 class TimeGrid {
   public readonly count: number;
+  private readonly hours: TimeRange;
+  private readonly minutes: TimeRange;
+  private readonly seconds: TimeRange;
 
-  public constructor(
-    private readonly hours: TimeRange,
-    private readonly minutes: TimeRange,
-    private readonly seconds: TimeRange,
-  ) {
+  public constructor(hours: TimeRange, minutes: TimeRange, seconds: TimeRange) {
+    this.hours = hours;
+    this.minutes = minutes;
+    this.seconds = seconds;
     this.count = hours.count * minutes.count * seconds.count;
   }
 

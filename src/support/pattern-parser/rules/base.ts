@@ -5,10 +5,16 @@ import {
 } from "@mantlebee/ts-core";
 
 export class RuleBase implements TokenizerRule {
+  private readonly matchDelegate: TokenizerRule["match"];
+  private readonly updateResult: (value: string) => void;
+
   public constructor(
-    private readonly matchDelegate: TokenizerRule["match"],
-    private readonly updateResult: (value: string) => void
-  ) {}
+    matchDelegate: TokenizerRule["match"],
+    updateResult: (value: string) => void
+  ) {
+    this.matchDelegate = matchDelegate;
+    this.updateResult = updateResult;
+  }
 
   public match(
     text: string,

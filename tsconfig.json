@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "declaration": true,
     "declarationDir": "dist/src",
+    "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
