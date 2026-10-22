@@ -161,7 +161,7 @@ export function generateRandomDate(
     secondsFrom = 0,
     secondsTo = 59,
   } = options;
-  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()))
+  if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime()))
     throw new RangeError("generateRandomDate: invalid date");
   if (startDate > endDate)
     throw new RangeError("generateRandomDate: startDate is after endDate");
