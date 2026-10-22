@@ -1,6 +1,4 @@
-import { generateRandomStringFromChars, PatternParser } from "@/support";
-
-export { generateRandomStringFromChars };
+import { PatternParser } from "@/support";
 
 /**
  * Generates a random string from the given pattern. The length of the string depends on pattern itself.
