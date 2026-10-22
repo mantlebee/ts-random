@@ -9,32 +9,38 @@ import { generateRandomStringFromChars } from "@/support/chars"; // "Circular de
 
 import { RuleBase } from "./base";
 
+type RepeatableCharacter = "0" | "A" | "a";
+
 // Getters, not their results: calling them here would run code at module load,
 // which bundlers treat as a side effect and never tree-shake.
-const CHARS_MAP: Record<string, () => string> = {
+const CHARS_MAP: Record<RepeatableCharacter, () => string> = {
   "0": getNumberChars,
   A: getUppercaseChars,
   a: getLowercaseChars,
 };
 
-const getRandomChars = (char: string, length: number) => {
+const getRandomChars = (char: RepeatableCharacter, length: number) => {
   const chars = CHARS_MAP[char]();
   return generateRandomStringFromChars(chars, length);
 };
 
+/**
+ * Number of chars of a repeater, `X{n}` or `X{n,M}`: the regex of the rule
+ * guarantees one or two numbers. `parseInt` ignores the closing bracket.
+ */
 const getRepeat = (match: string) => {
-  if (match.includes(",")) {
-    const range = match
-      .substring(2, match.length)
-      .split(",")
-      .map((a) => parseInt(a));
-    return generateRandomNumber(range[1], range[0]);
-  }
-  return parseInt(match.substring(2, match.length));
+  const [min, max = min] = match
+    .substring(2)
+    .split(",")
+    .map((a) => parseInt(a)) as [number, number?];
+  return generateRandomNumber(max, min);
 };
 
 export class RepeatableCharacterRule extends RuleBase {
-  public constructor(char: string, updateResult: (value: string) => void) {
+  public constructor(
+    char: RepeatableCharacter,
+    updateResult: (value: string) => void,
+  ) {
     super((text, currentIndex) => {
       if (text[currentIndex] === char) {
         if (/^.\{\d+(,\d+)?\}/.test(text.substring(currentIndex))) {

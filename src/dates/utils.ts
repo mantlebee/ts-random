@@ -149,8 +149,8 @@ const getDaysBetween = (startDate: Date, endDate: Date) =>
  * if no date in the range has an allowed time.
  */
 export function generateRandomDate(
-  endDate = new Date(),
-  startDate = new Date(1970, 0, 1),
+  endDate: Date = new Date(),
+  startDate: Date = new Date(1970, 0, 1),
   options: GenerateRandomDateOptions = {},
 ): Date {
   const {

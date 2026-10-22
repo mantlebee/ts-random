@@ -31,9 +31,11 @@ export function generateSecureRandomInteger(maxExclusive: number): number {
   // otherwise the lowest results would come out more often.
   const limit = 2 ** 32 - (2 ** 32 % maxExclusive);
   const buffer = new Uint32Array(1);
-  do globalThis.crypto.getRandomValues(buffer);
-  while (buffer[0] >= limit);
-  return buffer[0] % maxExclusive;
+  let value: number;
+  // The buffer has 1 item, so the one at index 0 always exists.
+  do value = globalThis.crypto.getRandomValues(buffer)[0] as number;
+  while (value >= limit);
+  return value % maxExclusive;
 }
 
 /**
@@ -49,7 +51,8 @@ export function generateSecureRandomInteger(maxExclusive: number): number {
  * @throws RangeError if the list is empty.
  */
 export function extractSecureRandomItem<TItem>(items: List<TItem>): TItem {
-  return items[generateSecureRandomInteger(items.length)];
+  // The index is in range, so the item exists, even if it is `undefined`.
+  return items[generateSecureRandomInteger(items.length)] as TItem;
 }
 
 /**
@@ -70,7 +73,8 @@ export function shuffleSecureRandomItems<TItem>(
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
     const j = generateSecureRandomInteger(i + 1);
-    [result[i], result[j]] = [result[j], result[i]];
+    // Both indexes are in range, so the items exist.
+    [result[i], result[j]] = [result[j], result[i]] as [TItem, TItem];
   }
   return result;
 }

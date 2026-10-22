@@ -7,8 +7,10 @@
     "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "importHelpers": true,
+    "isolatedDeclarations": true,
     "module": "ES6",
     "moduleResolution": "bundler",
+    "noUncheckedIndexedAccess": true,
     "outDir": "dist/src",
     "paths": {
       "@/*": ["src/*"]

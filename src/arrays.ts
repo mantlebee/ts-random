@@ -15,8 +15,9 @@ export function extractRandomItem<TItem>(
 ): TItem {
   if (!items.length) throw new RangeError("extractRandomItem: empty list");
   const index = generateRandomNumber(items.length - 1);
-  if (extractPhysically) return items.splice(index, 1)[0];
-  return items[index];
+  // The index is in range, so the item exists, even if it is `undefined`.
+  if (extractPhysically) return items.splice(index, 1)[0] as TItem;
+  return items[index] as TItem;
 }
 
 /**

@@ -7,7 +7,7 @@ import { RuleBase } from "./base";
 export class LiteralCharRule extends RuleBase {
   public constructor(updateResult: (value: string) => void) {
     super((text, currentIndex) => {
-      const char = text[currentIndex];
+      const char = text.charAt(currentIndex);
       return { endIndex: currentIndex, match: char, value: char };
     }, updateResult);
   }

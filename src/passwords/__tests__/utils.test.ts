@@ -112,7 +112,7 @@ describe("passwords", () => {
 
       it("Shuffles the chars, so the first one is not always of the same category", () => {
         const categories = new Set(
-          generateRandomPasswords(200).map((a) => getCategory(a[0])),
+          generateRandomPasswords(200).map((a) => getCategory(a.charAt(0))),
         );
         expect(categories.size).toBeGreaterThan(1);
         expect(categories.has("other")).toBeFalsy();
