@@ -33,13 +33,13 @@ describe("common", () => {
             randoms.push(generateRandomColor(false, darkColor, lightColor));
           randoms.forEach((a) => {
             expect(
-              a.red >= darkColor.red && a.red <= lightColor.red
+              a.red >= darkColor.red && a.red <= lightColor.red,
             ).toBeTruthy();
             expect(
-              a.green >= darkColor.green && a.green <= lightColor.green
+              a.green >= darkColor.green && a.green <= lightColor.green,
             ).toBeTruthy();
             expect(
-              a.blue >= darkColor.blue && a.blue <= lightColor.blue
+              a.blue >= darkColor.blue && a.blue <= lightColor.blue,
             ).toBeTruthy();
           });
         });

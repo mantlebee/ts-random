@@ -67,7 +67,7 @@ Extracts a random item from an array. The extracted item can be removed or not f
 ```ts
 function extractRandomItem<TItem>(
   items: List<TItem>,
-  extractPhysically = false
+  extractPhysically = false,
 ): TItem;
 ```
 
@@ -94,7 +94,7 @@ Extracts a sub-list of items from an array. The length of the sub-list is random
 ```ts
 function extractRandomItems<TItem>(
   items: List<TItem>,
-  extractPhysically = false
+  extractPhysically = false,
 ): List<TItem>;
 ```
 
@@ -146,7 +146,7 @@ Generates a random [`IColor`](https://github.com/mantlebee/ts-core/blob/main/src
 function generateRandomColor(
   transparent = false,
   from: IColor = new Color(0, 0, 0),
-  to: IColor = new Color(255, 255, 255)
+  to: IColor = new Color(255, 255, 255),
 ): IColor;
 ```
 
@@ -208,7 +208,7 @@ Generates a random password that satisfies the given requirements, using a crypt
 
 ```ts
 function generateRandomPassword(
-  requirements: List<IPasswordRequirement> = PasswordRequirementsDefault()
+  requirements: List<IPasswordRequirement> = PasswordRequirementsDefault(),
 ): string;
 ```
 

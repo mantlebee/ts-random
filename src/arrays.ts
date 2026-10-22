@@ -11,7 +11,7 @@ import { generateRandomNumber } from "./numbers";
  */
 export function extractRandomItem<TItem>(
   items: List<TItem>,
-  extractPhysically = false
+  extractPhysically = false,
 ): TItem {
   if (!items.length) throw new RangeError("extractRandomItem: empty list");
   const index = generateRandomNumber(items.length - 1);
@@ -27,7 +27,7 @@ export function extractRandomItem<TItem>(
  */
 export function extractRandomItems<TItem>(
   items: List<TItem>,
-  extractPhysically = false
+  extractPhysically = false,
 ): List<TItem> {
   const randomCount = generateRandomNumber(items.length);
   // Items are always removed from the source, so none is extracted twice.

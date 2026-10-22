@@ -10,7 +10,7 @@ export class RuleBase implements TokenizerRule {
 
   public constructor(
     matchDelegate: TokenizerRule["match"],
-    updateResult: (value: string) => void
+    updateResult: (value: string) => void,
   ) {
     this.matchDelegate = matchDelegate;
     this.updateResult = updateResult;
@@ -18,7 +18,7 @@ export class RuleBase implements TokenizerRule {
 
   public match(
     text: string,
-    currentIndex: number
+    currentIndex: number,
   ): Nullable<TokenizerRuleMatch> {
     const matchResult = this.matchDelegate(text, currentIndex);
     if (matchResult) this.updateResult(matchResult.value);
