@@ -5,7 +5,8 @@ import {
 } from "@mantlebee/ts-core";
 
 import { generateRandomNumber } from "@/numbers";
-import { generateRandomStringFromChars } from "@/support/chars"; // "Circular dependencies" error if imported from `@/support`
+// Not from `@/strings`, which imports the pattern parser: it would be a cycle.
+import { generateRandomStringFromChars } from "@/strings/generate-random-string-from-chars";
 
 import { RuleBase } from "./base";
 
