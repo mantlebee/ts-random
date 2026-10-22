@@ -1,0 +1,446 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>1.0.0 | @mantlebee/ts-random</title><meta name="description" content="Documentation for @mantlebee/ts-random"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="../index.html" class="title">@mantlebee/ts-random</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+<li><a href="" aria-current="page">1.0.0</a></li></ul></div>
+<div class="tsd-panel tsd-typography"><h1 id="100-upgrading-from-052" class="tsd-anchor-link">1.0.0 — upgrading from 0.5.2<a href="#100-upgrading-from-052" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>Version 1.0.0 adds password generation and cryptographically secure random
+helpers, built on the password requirements of <code>@mantlebee/ts-core</code> 1.0.0, and
+makes the package tree-shakable. The breaking changes are about how the
+package is installed and imported, and about the fixes of
+<code>generateRandomNumber</code>, <code>generateRandomDate</code> and
+<code>generateRandomStringFromPattern</code>, which now return different values or throw
+on invalid input.</p>
+<ul>
+<li><a href="#1-breaking-changes-for-052-consumers">1. Breaking changes for 0.5.2 consumers</a>
+<ul>
+<li><a href="#11-ts-core-is-a-peer-dependency">1.1 ts-core is a peer dependency</a></li>
+<li><a href="#12-package-entry-points">1.2 Package entry points</a></li>
+<li><a href="#13-generaterandomnumber-fixes">1.3 <code>generateRandomNumber</code> fixes</a></li>
+<li><a href="#14-generaterandomdate-fixes">1.4 <code>generateRandomDate</code> fixes</a></li>
+<li><a href="#15-pattern-and-chars-fixes">1.5 Pattern and chars fixes</a></li>
+<li><a href="#16-extractrandomitem-and-extractrandomitems-fixes">1.6 <code>extractRandomItem</code> and <code>extractRandomItems</code> fixes</a></li>
+</ul>
+</li>
+<li><a href="#2-whats-new">2. What's new</a>
+<ul>
+<li><a href="#21-password-generation">2.1 Password generation</a></li>
+<li><a href="#22-secure-random-helpers">2.2 Secure random helpers</a></li>
+<li><a href="#23-tree-shakable-es-modules">2.3 Tree-shakable ES modules</a></li>
+<li><a href="#24-an-entry-point-for-each-area">2.4 An entry point for each area</a></li>
+<li><a href="#25-docs-not-in-the-package-anymore">2.5 Docs not in the package anymore</a></li>
+</ul>
+</li>
+<li><a href="#3-checklist">3. Checklist</a></li>
+</ul>
+<hr>
+<h2 id="1-breaking-changes-for-052-consumers" class="tsd-anchor-link">1. Breaking changes for 0.5.2 consumers<a href="#1-breaking-changes-for-052-consumers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="11-ts-core-is-a-peer-dependency" class="tsd-anchor-link">1.1 ts-core is a peer dependency<a href="#11-ts-core-is-a-peer-dependency" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>@mantlebee/ts-core</code> was a regular dependency, pinned to <code>0.24.1</code>. It is now a
+<strong>peer dependency</strong>, <code>^1.0.0</code>: the project that uses <code>@mantlebee/ts-random</code>
+installs it, and both packages share the same copy.</p>
+<pre><code class="sh"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@mantlebee/ts-random@^1.0.0</span><span class="hl-1"> </span><span class="hl-2">@mantlebee/ts-core@^1.0.0</span>
+</code><button type="button">Copy</button></pre>
+
+<p>npm 7+ installs missing peer dependencies automatically, but it fails if the
+project depends on a <code>0.x</code> version of <code>@mantlebee/ts-core</code>: upgrade it to
+<code>1.0.0</code> first, following its
+<a href="https://github.com/mantlebee/ts-core/blob/main/docs/release-notes/1.0.0.md">release notes</a>.</p>
+<p>Types such as <code>List</code> and <code>IColor</code>, and classes such as <code>Color</code>, keep coming
+from <code>@mantlebee/ts-core</code>.</p>
+<h3 id="12-package-entry-points" class="tsd-anchor-link">1.2 Package entry points<a href="#12-package-entry-points" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>package.json</code> now declares an <code>exports</code> map:</p>
+<table>
+<thead>
+<tr>
+<th>Import</th>
+<th>File</th>
+<th>Types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>import</code> (ES modules)</td>
+<td><code>dist/esm/index.mjs</code></td>
+<td><code>dist/esm/index.d.mts</code></td>
+</tr>
+<tr>
+<td><code>require</code> (CommonJS)</td>
+<td><code>dist/index.js</code></td>
+<td><code>dist/src/index.d.ts</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each build has its own declarations, so TypeScript with <code>moduleResolution</code>
+<code>node16</code>, <code>nodenext</code> or <code>bundler</code> resolves the right types for both.</p>
+<p>Everything is still exported by the package root, and each area has its own
+entry point too, e.g. <code>@mantlebee/ts-random/passwords</code> (see
+<a href="#24-an-entry-point-for-each-area">2.4</a>). Deep imports, such as
+<code>@mantlebee/ts-random/dist/...</code>, are <strong>not allowed anymore</strong>: import from
+<code>@mantlebee/ts-random</code> or from an area.</p>
+<h3 id="13-fixes" class="tsd-anchor-link">1.3 <code>generateRandomNumber</code> fixes<a href="#13-fixes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>generateRandomNumber(max, min, decimals)</code> has been fixed:</p>
+<ul>
+<li>with <code>decimals</code> greater than 0, every value between min and max has the same
+chance to be generated. Before, the values above <code>max</code> were turned into
+<code>max</code>, so <code>generateRandomNumber(1, 0, 2)</code> returned <code>1</code> about half the time;</li>
+<li>it throws a <code>RangeError</code> if <code>min</code> is greater than <code>max</code>, if <code>decimals</code> is
+not a non-negative integer, or if no number with <code>decimals</code> digits is
+between min and max. Before, it returned a wrong value without errors.</li>
+</ul>
+<p>The functions that use it are affected as well:</p>
+<ul>
+<li><code>generateRandomColor(true)</code> returns an <code>alpha</code> between 0 and 1 with 2
+decimals. Before, it was <code>0</code> or <code>1</code> only;</li>
+<li><code>generateRandomColor</code> accepts <code>from</code> and <code>to</code> in any order, and every
+channel can be any value between them. Before, when <code>from</code> was darker than
+<code>to</code>, the darkest value was never generated: with the default colors no
+channel was ever <code>0</code>;</li>
+<li><code>generateRandomStringFromPattern</code> throws a <code>RangeError</code> for a repeat range
+whose min is greater than its max, such as <code>a{12,8}</code>.</li>
+</ul>
+<pre><code class="ts"><span class="hl-9">// Before: 0 to 1 with 2 decimals, written with min and max swapped</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">); </span><span class="hl-9">// always 1</span><br/><br/><span class="hl-9">// After</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">); </span><span class="hl-9">// eg. 0.42</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="14-fixes" class="tsd-anchor-link">1.4 <code>generateRandomDate</code> fixes<a href="#14-fixes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>generateRandomDate(endDate, startDate, options)</code> has been rewritten:</p>
+<ul>
+<li>the result is always between <code>startDate</code> and <code>endDate</code>. Before, the time was
+set after picking the date, so the result could fall outside the range, e.g.
+in the future with the default <code>endDate</code>, or 9 times out of 10 for a range
+of a few hours;</li>
+<li>around a daylight saving time change, the local times that are skipped, such
+as 02:00–02:59 on the last Sunday of March in Central Europe, are never
+generated. Before, they were moved one hour forward, so the result could be
+after <code>endDate</code> and the following hour was twice as likely. The local times
+that are repeated are generated at their first occurrence only, and never
+before <code>startDate</code>;</li>
+<li>the given dates are never modified and a new <code>Date</code> is always returned.
+Before, when <code>startDate</code> and <code>endDate</code> were equal, <code>endDate</code> itself was
+modified and returned;</li>
+<li>the result has no milliseconds, and each allowed second in the range has the
+same chance to be generated;</li>
+<li>the default <code>startDate</code> is 1970/01/01 00:00:00 in <strong>local time</strong>. Before, it
+was midnight UTC, which is 1969/12/31 west of Greenwich;</li>
+<li>it throws a <code>RangeError</code> if a date is invalid, if <code>startDate</code> is after
+<code>endDate</code>, if a time option is out of its range (hours 0–23, minutes and
+seconds 0–59) or its <code>...From</code> is greater than its <code>...To</code>, or if no date in
+the range has an allowed time. Before, <code>startDate</code> after <code>endDate</code> was
+accepted, and an option such as <code>hoursTo: 24</code> moved the date to the next
+day.</li>
+</ul>
+<h3 id="15-pattern-and-chars-fixes" class="tsd-anchor-link">1.5 Pattern and chars fixes<a href="#15-pattern-and-chars-fixes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>generateRandomStringFromPattern</code>:</p>
+<ul>
+<li><code>mm</code> generates the months from <code>01</code> to <code>12</code>. Before, it generated <code>13</code>–<code>19</code>
+as well, and never <code>10</code>;</li>
+<li>the chars that are not placeholders (<code>A</code>, <code>a</code>, <code>0</code>, <code>mm</code>), escape brackets or
+repeaters are copied as they are. Before, the digits from 1 to 9, the
+letters, some symbols (<code>[</code>, <code>\</code>, <code>]</code>) and the non-ASCII chars were removed:
+<code>&quot;x1-0&quot;</code> returned something like <code>&quot;-2&quot;</code>;</li>
+<li>an escape bracket that is not closed throws a <code>SyntaxError</code>. Before, a plain
+string was thrown.</li>
+</ul>
+<p><code>generateRandomStringFromChars</code> keeps the chars outside the BMP, such as
+emojis, whole, and <code>length</code> counts them as one char. Before, it could return
+half of an emoji.</p>
+<h3 id="16-and--fixes" class="tsd-anchor-link">1.6 <code>extractRandomItem</code> and <code>extractRandomItems</code> fixes<a href="#16-and--fixes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>extractRandomItem(items, extractPhysically)</code>:</p>
+<ul>
+<li>with <code>extractPhysically</code> set to <code>true</code>, the extracted item is always removed
+from the list. Before, the only item of a list with 1 item was returned but
+not removed;</li>
+<li>it throws a <code>RangeError</code> with message <code>extractRandomItem: empty list</code> if the
+list is empty. Before, the <code>RangeError</code> of <code>generateRandomNumber</code> was thrown,
+with the misleading message <code>min 0 is greater than max -1</code>.</li>
+</ul>
+<p><code>extractRandomItems(items, extractPhysically)</code>:</p>
+<ul>
+<li>it always returns a new list. Before, with a list of 1 item and
+<code>extractPhysically</code> set to <code>false</code>, the given list itself was returned, so
+changing the result changed the given list;</li>
+<li>with <code>extractPhysically</code> set to <code>false</code>, an item of the list is never
+extracted twice. Before, each item was picked from the whole list, so the
+result could contain the same item more than once;</li>
+<li>the length of the result is random, from 0 to the length of the list, both
+included, so all the items can be extracted. Before, it was from 0 to the
+length of the list minus 1, except for a list of 1 item, whose item was
+always extracted: now the result is empty half the time;</li>
+<li>it returns an empty list if the list is empty. Before, it threw a
+<code>RangeError</code>.</li>
+</ul>
+<hr>
+<h2 id="2-whats-new" class="tsd-anchor-link">2. What's new<a href="#2-whats-new" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="21-password-generation" class="tsd-anchor-link">2.1 Password generation<a href="#21-password-generation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>generateRandomPassword</code> generates a password that satisfies a list of
+<code>IPasswordRequirement</code> from <code>@mantlebee/ts-core</code>, by default
+<code>PasswordRequirementsDefault()</code> (8–30 chars, lowercase, uppercase, number,
+symbol, no whitespaces).</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementIncludesLowercaseLetter</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementIncludesSymbol</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementLength</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementsDefault</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomPassword</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">(); </span><span class="hl-9">// 8 chars, eg. &quot;q7}Rk;bN&quot;</span><br/><br/><span class="hl-9">// 24 chars with the default categories.</span><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">([</span><br/><span class="hl-1">  ...</span><span class="hl-0">PasswordRequirementsDefault</span><span class="hl-1">(),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementLength</span><span class="hl-1">(</span><span class="hl-8">24</span><span class="hl-1">),</span><br/><span class="hl-1">]);</span><br/><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">([</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementLength</span><span class="hl-1">(</span><span class="hl-8">12</span><span class="hl-1">, </span><span class="hl-8">12</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementIncludesLowercaseLetter</span><span class="hl-1">(),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementIncludesSymbol</span><span class="hl-1">(</span><span class="hl-2">&quot;-_&quot;</span><span class="hl-1">),</span><br/><span class="hl-1">]); </span><span class="hl-9">// 12 chars, eg. &quot;kd-qe_wnz-ab&quot;</span>
+</code><button type="button">Copy</button></pre>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Kind</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generateRandomPassword</code></td>
+<td>function</td>
+<td><code>(requirements?) =&gt; string</code></td>
+</tr>
+<tr>
+<td><code>GenerateRandomPasswordExceptionCodes</code></td>
+<td>object</td>
+<td><code>code</code> of the exceptions thrown by <code>generateRandomPassword</code></td>
+</tr>
+<tr>
+<td><code>NoAllowedCharsException</code></td>
+<td>class</td>
+<td>no requirement has <code>allowedChars</code></td>
+</tr>
+<tr>
+<td><code>UnsatisfiableRequirementsException</code></td>
+<td>class</td>
+<td>the requirements can't be satisfied</td>
+</tr>
+</tbody>
+</table>
+<p>How it works:</p>
+<ul>
+<li>the password gets one char for each requirement with <code>allowedChars</code>, then
+chars picked <strong>uniformly</strong> from the distinct union of every <code>allowedChars</code>,
+until it is valid for <code>validatePassword</code>;</li>
+<li>the length is defined by the requirements only (e.g.
+<code>PasswordRequirementLength</code>): the password is as short as the requirements
+allow, and never more than 256 chars, to avoid infinite loops when there is
+no maximum length;</li>
+<li>the chars are shuffled, so the position of each category is not predictable;</li>
+<li>it uses Web Crypto only, never <code>Math.random</code>.</li>
+</ul>
+<p>It throws exceptions that extend the <code>Exception</code> of <code>@mantlebee/ts-core</code>:</p>
+<ul>
+<li><code>NoAllowedCharsException</code> (<code>code</code> is
+<code>GenerateRandomPasswordExceptionCodes.NoAllowedChars</code>) if no requirement has
+<code>allowedChars</code> (e.g. an empty list);</li>
+<li><code>UnsatisfiableRequirementsException</code> (<code>code</code> is
+<code>GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements</code>) if the
+requirements can't be satisfied, e.g. a <code>minLength</code> greater than a
+<code>maxLength</code>, or a <code>PasswordRequirementMatchPassword</code> in the list.</li>
+</ul>
+<p><strong>Moving from the external <code>passwords</code> module</strong> — projects that used the
+external copy of the <code>passwords</code> module, where requirements generated their
+own chars with <code>generateChar()</code>, import <code>generateRandomPassword</code> (formerly
+<code>generatePassword</code>) from <code>@mantlebee/ts-random</code> and the requirements from
+<code>@mantlebee/ts-core</code> 1.0.0, which describe their <code>allowedChars</code> instead:</p>
+<pre><code class="ts"><span class="hl-9">// Before</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generatePassword</span><span class="hl-1">, </span><span class="hl-4">PasswordRequirementsDefault</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@/passwords&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// After</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">PasswordRequirementsDefault</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomPassword</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The exception codes are renamed too: <code>GeneratePasswordExceptionCodes.noAllowedChars</code>
+and <code>GeneratePasswordExceptionCodes.unsatisfiableRequirements</code> become
+<code>GenerateRandomPasswordExceptionCodes.NoAllowedChars</code> and
+<code>GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements</code>. Their values
+(<code>&quot;NoAllowedChars&quot;</code> and <code>&quot;UnsatisfiableRequirements&quot;</code>) don't change, so checks
+on the string value of <code>code</code> keep working.</p>
+<h3 id="22-secure-random-helpers" class="tsd-anchor-link">2.2 Secure random helpers<a href="#22-secure-random-helpers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>They replace the external copy of the <code>random</code> module, with the same
+behaviour but new names, and they are in the <code>secure</code> folder of the sources. They use Web Crypto
+(<code>globalThis.crypto.getRandomValues</code>), available in browsers and in Node.js
+19+. That's why <code>package.json</code> declares <code>&quot;engines&quot;: { &quot;node&quot;: &quot;&gt;=19&quot; }</code>: npm
+warns when the package is installed on an older version of Node.js.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generateSecureRandomInteger</code></td>
+<td>random integer in <code>[0, maxExclusive)</code>, without modulo bias</td>
+</tr>
+<tr>
+<td><code>extractSecureRandomItem</code></td>
+<td>random item of a list; throws <code>RangeError</code> if the list is empty</td>
+</tr>
+<tr>
+<td><code>shuffleSecureRandomItems</code></td>
+<td>shuffled copy of a list (Fisher-Yates); the original list is not modified</td>
+</tr>
+</tbody>
+</table>
+<p>Unlike <code>generateRandomNumber</code>, <code>generateSecureRandomInteger</code> <strong>excludes</strong> the
+max value, so the result can be used directly as an index of a list.</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">extractSecureRandomItem</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">generateSecureRandomInteger</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">shuffleSecureRandomItems</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">generateSecureRandomInteger</span><span class="hl-1">(</span><span class="hl-8">6</span><span class="hl-1">) + </span><span class="hl-8">1</span><span class="hl-1">; </span><span class="hl-9">// a dice roll, eg. 4</span><br/><span class="hl-0">extractSecureRandomItem</span><span class="hl-1">([</span><span class="hl-2">&quot;rock&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;paper&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;scissors&quot;</span><span class="hl-1">]); </span><span class="hl-9">// eg. &quot;paper&quot;</span><br/><span class="hl-0">shuffleSecureRandomItems</span><span class="hl-1">([</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">, </span><span class="hl-8">3</span><span class="hl-1">, </span><span class="hl-8">4</span><span class="hl-1">]); </span><span class="hl-9">// eg. [3, 1, 4, 2]</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The other functions, such as <code>generateRandomNumber</code> and <code>extractRandomItem</code>,
+still use <code>Math.random</code>: don't use them for secrets.</p>
+<p><strong>Moving from the external <code>random</code> module</strong> — the functions have been renamed:</p>
+<table>
+<thead>
+<tr>
+<th>Before (external <code>random</code> module)</th>
+<th>After (<code>@mantlebee/ts-random</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getSecureRandomInt</code></td>
+<td><code>generateSecureRandomInteger</code></td>
+</tr>
+<tr>
+<td><code>extractSecureRandomItem</code></td>
+<td><code>extractSecureRandomItem</code></td>
+</tr>
+<tr>
+<td><code>shuffleSecure</code></td>
+<td><code>shuffleSecureRandomItems</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-tree-shakable-es-modules" class="tsd-anchor-link">2.3 Tree-shakable ES modules<a href="#23-tree-shakable-es-modules" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>The package ships ES modules, one file per source module, and declares <code>&quot;sideEffects&quot;: false</code>. Bundlers keep only the functions
+that are imported: <code>import { generateRandomBoolean } from &quot;@mantlebee/ts-random&quot;</code>
+doesn't bring in the pattern parser nor the password generator.</p>
+<h3 id="24-an-entry-point-for-each-area" class="tsd-anchor-link">2.4 An entry point for each area<a href="#24-an-entry-point-for-each-area" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Each area can be imported on its own, from both builds:</p>
+<table>
+<thead>
+<tr>
+<th>Import</th>
+<th>Exports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@mantlebee/ts-random/arrays</code></td>
+<td><code>extractRandomItem</code>, <code>extractRandomItems</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/booleans</code></td>
+<td><code>generateRandomBoolean</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/colors</code></td>
+<td><code>generateRandomColor</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/dates</code></td>
+<td><code>generateRandomDate</code>, <code>GenerateRandomDateOptions</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/numbers</code></td>
+<td><code>generateRandomNumber</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/passwords</code></td>
+<td><code>generateRandomPassword</code> and its exceptions</td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/secure</code></td>
+<td><code>generateSecureRandomInteger</code>, <code>extractSecureRandomItem</code>, <code>shuffleSecureRandomItems</code></td>
+</tr>
+<tr>
+<td><code>@mantlebee/ts-random/strings</code></td>
+<td><code>generateRandomStringFromChars</code>, <code>generateRandomStringFromPattern</code></td>
+</tr>
+</tbody>
+</table>
+<p>They matter for CommonJS, which is not tree-shaken: the CommonJS build is now
+one file per source module too, so <code>require(&quot;@mantlebee/ts-random/passwords&quot;)</code>
+loads the password generator and the secure helpers it uses only, while
+<code>require(&quot;@mantlebee/ts-random&quot;)</code> loads every area. With ES modules and a
+bundler, importing from the root is just as small.</p>
+<p>TypeScript resolves the types of the areas with every <code>moduleResolution</code>,
+<code>node10</code> included, through <code>typesVersions</code>.</p>
+<h3 id="25-docs-not-in-the-package-anymore" class="tsd-anchor-link">2.5 Docs not in the package anymore<a href="#25-docs-not-in-the-package-anymore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>The typedoc output is not included in the npm package anymore. The API
+documentation is published on
+<a href="https://mantlebee.github.io/ts-random/">GitHub Pages</a>, and the release notes
+are in the
+<a href="https://github.com/mantlebee/ts-random/tree/main/docs/release-notes">repository</a>.</p>
+<hr>
+<h2 id="3-checklist" class="tsd-anchor-link">3. Checklist<a href="#3-checklist" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li>[ ] Upgrade <code>@mantlebee/ts-core</code> to <code>^1.0.0</code> and add it to the project
+dependencies, if missing.</li>
+<li>[ ] Replace deep imports (<code>@mantlebee/ts-random/dist/...</code>) with imports from
+<code>@mantlebee/ts-random</code> or from an area, e.g.
+<code>@mantlebee/ts-random/passwords</code>.</li>
+<li>[ ] Import <code>generateRandomPassword</code>, <code>generateSecureRandomInteger</code>,
+<code>extractSecureRandomItem</code> and <code>shuffleSecureRandomItems</code> from
+<code>@mantlebee/ts-random</code> instead of the external <code>passwords</code> and <code>random</code>
+modules, renaming <code>generatePassword</code>, <code>getSecureRandomInt</code> and
+<code>shuffleSecure</code>.</li>
+<li>[ ] Replace <code>GeneratePasswordExceptionCodes.noAllowedChars</code> and
+<code>GeneratePasswordExceptionCodes.unsatisfiableRequirements</code> with
+<code>GenerateRandomPasswordExceptionCodes.NoAllowedChars</code> and
+<code>GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements</code>.</li>
+<li>[ ] Check that every <code>generateRandomNumber</code> call passes <code>max</code> before <code>min</code>:
+swapped values now throw a <code>RangeError</code>.</li>
+<li>[ ] Check that every <code>generateRandomDate</code> call passes <code>endDate</code> before
+<code>startDate</code>, and time options within their ranges: they now throw a
+<code>RangeError</code> otherwise.</li>
+<li>[ ] Check the patterns of <code>generateRandomStringFromPattern</code> that contain
+letters, digits from 1 to 9 or <code>[\]</code> outside escape brackets: they are
+now copied instead of removed.</li>
+<li>[ ] Check the calls of <code>extractRandomItems</code>: the result can now contain all
+the items of the list, and it can be empty for a list of 1 item.</li>
+<li>[ ] Handle the <code>Exception</code> thrown by <code>generateRandomPassword</code> when the requirements
+come from user input or configuration.</li>
+<li>[ ] On Node.js, use version 19 or later for the secure helpers and
+<code>generateRandomPassword</code>.</li>
+</ul>
+</div></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#100-upgrading-from-052"><span>1.0.0 — upgrading from 0.5.2</span></a>
+<ul>
+<li><a href="#1-breaking-changes-for-052-consumers"><span>1. <wbr/>Breaking changes for 0.5.2 consumers</span></a></li>
+<li>
+<ul>
+<li><a href="#11-ts-core-is-a-peer-dependency"><span>1.1 ts-<wbr/>core is a peer dependency</span></a></li>
+<li><a href="#12-package-entry-points"><span>1.2 <wbr/>Package entry points</span></a></li>
+<li><a href="#13-fixes"><span>1.3  fixes</span></a></li>
+<li><a href="#14-fixes"><span>1.4  fixes</span></a></li>
+<li><a href="#15-pattern-and-chars-fixes"><span>1.5 <wbr/>Pattern and chars fixes</span></a></li>
+<li><a href="#16-and--fixes"><span>1.6  and  fixes</span></a></li></ul></li>
+<li><a href="#2-whats-new"><span>2. <wbr/>What&#39;s new</span></a></li>
+<li>
+<ul>
+<li><a href="#21-password-generation"><span>2.1 <wbr/>Password generation</span></a></li>
+<li><a href="#22-secure-random-helpers"><span>2.2 <wbr/>Secure random helpers</span></a></li>
+<li><a href="#23-tree-shakable-es-modules"><span>2.3 <wbr/>Tree-<wbr/>shakable <wbr/>ES modules</span></a></li>
+<li><a href="#24-an-entry-point-for-each-area"><span>2.4 <wbr/>An entry point for each area</span></a></li>
+<li><a href="#25-docs-not-in-the-package-anymore"><span>2.5 <wbr/>Docs not in the package anymore</span></a></li></ul></li>
+<li><a href="#3-checklist"><span>3. <wbr/>Checklist</span></a></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../modules.html">@mantlebee/ts-random</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>

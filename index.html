@@ -1,147 +1,248 @@
-<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@mantlebee/ts-random</title><meta name="description" content="Documentation for @mantlebee/ts-random"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@mantlebee/ts-random</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@mantlebee/ts-random </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><p><code>ts-random</code></p>
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@mantlebee/ts-random</title><meta name="description" content="Documentation for @mantlebee/ts-random"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="index.html" class="title">@mantlebee/ts-random</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<h1>@mantlebee/ts-random</h1></div>
+<div class="tsd-panel tsd-typography"><h1 id="typescript-random" class="tsd-anchor-link">TypeScript Random<a href="#typescript-random" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>Utility functions to generate random data or extract random data from lists.</p>
+<p>What changed in each version, and how to upgrade, is in the
+<a href="https://github.com/mantlebee/ts-random/tree/main/docs/release-notes">release notes</a>
+(<a href="https://github.com/mantlebee/ts-random/blob/main/docs/release-notes/1.0.0.md">1.0.0</a>).</p>
+<h2 id="installation" class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p><code>@mantlebee/ts-core</code> is a peer dependency: install it together with the package.</p>
+<pre><code class="sh"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@mantlebee/ts-random</span><span class="hl-1"> </span><span class="hl-2">@mantlebee/ts-core</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#typescript-random" id="typescript-random" style="color: inherit; text-decoration: none;">
-  <h1>TypeScript Random</h1>
-</a>
-<p>Utilities functions to generate random data or extract random data from lists.</p>
-<p>Utilities about random data generation are spearated by return type:</p>
+<p>The package ships CommonJS and tree-shakable ES modules: bundlers keep only the
+functions that are imported.</p>
+<p>Each area also has its own entry point, which loads only that area and what it
+uses: useful with CommonJS, which is not tree-shaken.</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomPassword</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random/passwords&quot;</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>The areas are <code>arrays</code>, <code>booleans</code>, <code>colors</code>, <code>dates</code>, <code>numbers</code>, <code>passwords</code>,
+<code>secure</code> and <code>strings</code>.</p>
+<p>Utilities about random data generation are separated by return type:</p>
 <ul>
-<li><a href="#boolean">Boolean</a><ul>
+<li><a href="#boolean">Boolean</a>
+<ul>
 <li><a href="#generaterandomboolean"><code>generateRandomBoolean</code></a></li>
 </ul>
 </li>
-<li><a href="#color">Color</a><ul>
+<li><a href="#color">Color</a>
+<ul>
 <li><a href="#generaterandomcolor"><code>generateRandomColor</code></a></li>
 </ul>
 </li>
-<li><a href="#number">Number</a><ul>
+<li><a href="#date">Date</a>
+<ul>
+<li><a href="#generaterandomdate"><code>generateRandomDate</code></a></li>
+</ul>
+</li>
+<li><a href="#number">Number</a>
+<ul>
 <li><a href="#generaterandomnumber"><code>generateRandomNumber</code></a></li>
 </ul>
 </li>
-<li><a href="#string">String</a><ul>
+<li><a href="#password">Password</a>
+<ul>
+<li><a href="#generaterandompassword"><code>generateRandomPassword</code></a></li>
+</ul>
+</li>
+<li><a href="#secure">Secure</a>
+<ul>
+<li><a href="#generatesecurerandominteger"><code>generateSecureRandomInteger</code></a></li>
+<li><a href="#extractsecurerandomitem"><code>extractSecureRandomItem</code></a></li>
+<li><a href="#shufflesecurerandomitems"><code>shuffleSecureRandomItems</code></a></li>
+</ul>
+</li>
+<li><a href="#string">String</a>
+<ul>
 <li><a href="#generaterandomstringfromchars"><code>generateRandomStringFromChars</code></a></li>
 <li><a href="#generaterandomstringfrompattern"><code>generateRandomStringFromPattern</code></a></li>
 </ul>
 </li>
 </ul>
-<p>There is also a section about random data exctraction from lists:</p>
+<p>There is also a section about random data extraction from lists:</p>
 <ul>
-<li><a href="#array">Array</a><ul>
+<li><a href="#array">Array</a>
+<ul>
 <li><a href="#extractrandomitem"><code>extractRandomItem</code></a></li>
 <li><a href="#extractrandomitems"><code>extractRandomItems</code></a></li>
 </ul>
 </li>
 </ul>
-
-<a href="#why" id="why" style="color: inherit; text-decoration: none;">
-  <h2>Why</h2>
-</a>
-<p>The project borns to support another repository, <a href="https://github.com/mantlebee/fake-data-only"><code>@mantlebee/fake-data-only</code></a>, which allows to generate tables of fake data, with specific columns type and restrictions and related data between tables. I decided to extract the random data generation in order to have a smaller and indipendent project.</p>
-
-<a href="#how-to" id="how-to" style="color: inherit; text-decoration: none;">
-  <h2>How To</h2>
-</a>
-<p>Let&#39; take a look at the utilities functions, separated by return type</p>
-
-<a href="#array" id="array" style="color: inherit; text-decoration: none;">
-  <h3>Array</h3>
-</a>
+<p>Functions with <code>SecureRandom</code> in the name, and <code>generateRandomPassword</code>, use a
+cryptographically secure random generator (Web Crypto, available in browsers and
+in Node.js 19+). The others use <code>Math.random</code>: don't use them for passwords,
+tokens or other secrets.</p>
+<h2 id="errors" class="tsd-anchor-link">Errors<a href="#errors" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The functions throw only when an argument is not valid, or when the request
+can't be satisfied:</p>
+<ul>
+<li><code>RangeError</code> when a value is out of its range: an empty list, a <code>min</code> greater
+than its <code>max</code>, an invalid date, an option out of its bounds, …</li>
+<li><code>SyntaxError</code> when a pattern of <code>generateRandomStringFromPattern</code> is malformed.</li>
+<li>A subclass of the <code>Exception</code> of <code>@mantlebee/ts-core</code> for the domain errors,
+which depend on what the arguments mean rather than on their form. Its
+<code>code</code> tells them apart, without checking the message. Today they are thrown
+by <code>generateRandomPassword</code> only: <code>NoAllowedCharsException</code> and
+<code>UnsatisfiableRequirementsException</code>, whose codes are in
+<code>GenerateRandomPasswordExceptionCodes</code>.</li>
+</ul>
+<p>Messages start with the name of the function that found the error, e.g.
+<code>generateRandomNumber: min 12 is greater than max 8</code>. It may be a function used
+internally rather than the one called: <code>generateRandomStringFromPattern(&quot;a{12,8}&quot;)</code>
+throws that same message, and <code>extractSecureRandomItem([])</code> one of
+<code>generateSecureRandomInteger</code>. Messages are meant for developers: to handle an
+error, check its class or its <code>code</code>, not its message.</p>
+<h2 id="why" class="tsd-anchor-link">Why<a href="#why" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>The project was born to support another repository, <a href="https://github.com/mantlebee/fake-data-only"><code>@mantlebee/fake-data-only</code></a>, which allows to generate tables of fake data, with specific columns type and restrictions and related data between tables. I decided to extract the random data generation in order to have a smaller and independent project.</p>
+<h2 id="how-to" class="tsd-anchor-link">How To<a href="#how-to" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Let's take a look at the utility functions, separated by return type.</p>
+<h3 id="array" class="tsd-anchor-link">Array<a href="#array" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Utilities about random data extraction from lists. Extracted data can be removed or not from the list.</p>
+<h4 id="_" class="tsd-anchor-link"><code>extractRandomItem</code><a href="#_" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Extracts a random item from an array. The extracted item can be removed or not from the array. Throws a <code>RangeError</code> if the array is empty.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItem</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-4">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-4">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><span class="hl-1">,</span><br/><span class="hl-1">): </span><span class="hl-6">TItem</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#extractrandomitem" id="extractrandomitem" style="color: inherit; text-decoration: none;">
-  <h4><code>extractRandomItem</code></h4>
-</a>
-<p>Extracts a random item from an array. The extracted item can be removed or not from the array.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItem</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-7">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><br/><span class="hl-1">): </span><span class="hl-6">TItem</span><span class="hl-1">;</span>
-</code></pre>
 <p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">extractRandomItem</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">, </span><span class="hl-2">3</span><span class="hl-1">];</span><br/><br/><span class="hl-3">// Extracting a random number, without removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// eg. 3</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2,3]</span><br/><br/><span class="hl-3">// Extracting a random number, removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. 3</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2]</span>
-</code></pre>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">extractRandomItem</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">, </span><span class="hl-8">3</span><span class="hl-1">];</span><br/><br/><span class="hl-9">// Extracting a random number, without removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// eg. 3</span><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// [1,2,3]</span><br/><br/><span class="hl-9">// Extracting a random number, removing it from the array</span><br/><span class="hl-0">extractRandomItem</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-9">// eg. 3</span><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// [1,2]</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#extractrandomitems" id="extractrandomitems" style="color: inherit; text-decoration: none;">
-  <h4><code>extractRandomItems</code></h4>
-</a>
-<p>Extracts a sub-list of items from an array. The length of the sub-list is random. The extracted items can be removed or not from the array.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItems</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-7">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><br/><span class="hl-1">): </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;;</span>
-</code></pre>
+<h4 id="_-1" class="tsd-anchor-link"><code>extractRandomItems</code><a href="#_-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Extracts a sub-list of items from an array. The length of the sub-list is random, from 0 to the length of the array, both included. The extracted items can be removed or not from the array.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractRandomItems</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><br/><span class="hl-1">  </span><span class="hl-4">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-4">extractPhysically</span><span class="hl-1"> = </span><span class="hl-5">false</span><span class="hl-1">,</span><br/><span class="hl-1">): </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;;</span>
+</code><button type="button">Copy</button></pre>
+
 <p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">extractRandomItems</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">, </span><span class="hl-2">3</span><span class="hl-1">];</span><br/><br/><span class="hl-3">// Extracting random items of random length, without removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// eg. [1,3]</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [1,2,3]</span><br/><br/><span class="hl-3">// Extracting random items of random length, removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. [1,3]</span><br/><span class="hl-7">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-7">items</span><span class="hl-1">); </span><span class="hl-3">// [2]</span>
-</code></pre>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">extractRandomItems</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">, </span><span class="hl-8">3</span><span class="hl-1">];</span><br/><br/><span class="hl-9">// Extracting random items of random length, without removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// eg. [1,3]</span><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// [1,2,3]</span><br/><br/><span class="hl-9">// Extracting random items of random length, removing them from the array</span><br/><span class="hl-0">extractRandomItems</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">, </span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-9">// eg. [1,3]</span><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// [2]</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#boolean" id="boolean" style="color: inherit; text-decoration: none;">
-  <h3>Boolean</h3>
-</a>
+<h3 id="boolean" class="tsd-anchor-link">Boolean<a href="#boolean" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Utilities about random boolean generation.</p>
-
-<a href="#generaterandomboolean" id="generaterandomboolean" style="color: inherit; text-decoration: none;">
-  <h4><code>generateRandomBoolean</code></h4>
-</a>
+<h4 id="_-2" class="tsd-anchor-link"><code>generateRandomBoolean</code><a href="#_-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
 <p>Generates a random boolean value.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(): </span><span class="hl-6">boolean</span><span class="hl-1">;</span>
-</code></pre>
-<p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomBoolean</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(); </span><span class="hl-3">// true or false</span>
-</code></pre>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(): </span><span class="hl-6">boolean</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#color" id="color" style="color: inherit; text-decoration: none;">
-  <h3>Color</h3>
-</a>
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomBoolean</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">generateRandomBoolean</span><span class="hl-1">(); </span><span class="hl-9">// true or false</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="color" class="tsd-anchor-link">Color<a href="#color" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Utilities about random color generation. Color utilities refer to the <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/interfaces.ts"><code>IColor</code></a> interface and the <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/models.ts"><code>Color</code></a> class from the <a href="https://github.com/mantlebee/ts-core"><code>@mantlebee/ts-core</code></a> repository.</p>
+<h4 id="_-3" class="tsd-anchor-link"><code>generateRandomColor</code><a href="#_-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a random <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/interfaces.ts"><code>IColor</code></a> instance. Colors can be opaque or have a random level of transparency. It is possible to restrict the range of colors to choose from, like reds only.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-4">transparent</span><span class="hl-1"> = </span><span class="hl-5">false</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">from</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-4">to</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-8">255</span><span class="hl-1">, </span><span class="hl-8">255</span><span class="hl-1">, </span><span class="hl-8">255</span><span class="hl-1">),</span><br/><span class="hl-1">): </span><span class="hl-6">IColor</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#generaterandomcolor" id="generaterandomcolor" style="color: inherit; text-decoration: none;">
-  <h4><code>generateRandomColor</code></h4>
-</a>
-<p>Generates a random <a href="https://github.com/mantlebee/ts-core/blob/main/src/colors/interfaces.ts"><code>IColor</code></a> instance. Colors can be opaque or have a random level of transparency. It is possible to restrict the range of colors between to choose, like reds only.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-7">transparent</span><span class="hl-1"> = </span><span class="hl-5">false</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-7">from</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-7">to</span><span class="hl-1">: </span><span class="hl-6">IColor</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">255</span><span class="hl-1">)</span><br/><span class="hl-1">): </span><span class="hl-6">IColor</span><span class="hl-1">;</span>
-</code></pre>
 <p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">Color</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomColor</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generate a random and opaque color</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(); </span><span class="hl-3">// eg. {alpha: 1, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-3">// Generate a random color with random transparency</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-3">// eg. {alpha: 0.5, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-3">// Generate a random opaque red color</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">lightRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">255</span><span class="hl-1">, </span><span class="hl-2">204</span><span class="hl-1">, </span><span class="hl-2">204</span><span class="hl-1">); </span><span class="hl-3">// rgb</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-9">darkRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-2">51</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">0</span><span class="hl-1">); </span><span class="hl-3">// rgb</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">false</span><span class="hl-1">, </span><span class="hl-7">lightRed</span><span class="hl-1">, </span><span class="hl-7">darkRed</span><span class="hl-1">); </span><span class="hl-3">// eg. {alpha: 1, blue: 0, green: 0, red: 153}</span>
-</code></pre>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">Color</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomColor</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// Generate a random and opaque color</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(); </span><span class="hl-9">// eg. {alpha: 1, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-9">// Generate a random color with random transparency</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">true</span><span class="hl-1">); </span><span class="hl-9">// eg. {alpha: 0.5, blue: 0, green: 136, red: 255}</span><br/><br/><span class="hl-9">// Generate a random opaque red color</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">lightRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-8">255</span><span class="hl-1">, </span><span class="hl-8">204</span><span class="hl-1">, </span><span class="hl-8">204</span><span class="hl-1">); </span><span class="hl-9">// rgb</span><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">darkRed</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Color</span><span class="hl-1">(</span><span class="hl-8">51</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">); </span><span class="hl-9">// rgb</span><br/><span class="hl-0">generateRandomColor</span><span class="hl-1">(</span><span class="hl-5">false</span><span class="hl-1">, </span><span class="hl-4">lightRed</span><span class="hl-1">, </span><span class="hl-4">darkRed</span><span class="hl-1">); </span><span class="hl-9">// eg. {alpha: 1, blue: 0, green: 0, red: 153}</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#number" id="number" style="color: inherit; text-decoration: none;">
-  <h3>Number</h3>
-</a>
+<h3 id="date" class="tsd-anchor-link">Date<a href="#date" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Utilities about random date generation.</p>
+<h4 id="_-4" class="tsd-anchor-link"><code>generateRandomDate</code><a href="#_-4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a random date between <code>startDate</code> and <code>endDate</code>, both included, whose time is within the given hours, minutes and seconds. Generated dates have no milliseconds, and each allowed second in the range has the same chance to be generated. The given dates are not modified.</p>
+<pre><code class="ts"><span class="hl-5">type</span><span class="hl-1"> </span><span class="hl-6">GenerateRandomDateOptions</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-4">hoursFrom</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-23, default 0</span><br/><span class="hl-1">  </span><span class="hl-4">hoursTo</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-23, default 23</span><br/><span class="hl-1">  </span><span class="hl-4">minutesFrom</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-59, default 0</span><br/><span class="hl-1">  </span><span class="hl-4">minutesTo</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-59, default 59</span><br/><span class="hl-1">  </span><span class="hl-4">secondsFrom</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-59, default 0</span><br/><span class="hl-1">  </span><span class="hl-4">secondsTo</span><span class="hl-1">?: </span><span class="hl-6">number</span><span class="hl-1">; </span><span class="hl-9">// 0-59, default 59</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomDate</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-4">endDate</span><span class="hl-1">: </span><span class="hl-6">Date</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(),</span><br/><span class="hl-1">  </span><span class="hl-4">startDate</span><span class="hl-1">: </span><span class="hl-6">Date</span><span class="hl-1"> = </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-8">1970</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-4">options</span><span class="hl-1">: </span><span class="hl-6">GenerateRandomDateOptions</span><span class="hl-1"> = {},</span><br/><span class="hl-1">): </span><span class="hl-6">Date</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<ul>
+<li>Each option range is an integer range with both ends included: e.g. <code>hoursFrom: 9, hoursTo: 17</code> allows the times from 09:00:00 to 17:59:59.</li>
+<li>Dates are in local time. Around a daylight saving time change, the local times that are skipped are never generated, and the ones that are repeated are generated at their first occurrence only.</li>
+<li>It throws a <code>RangeError</code> if a date is invalid, if <code>startDate</code> is after <code>endDate</code>, if an option is out of its range or its <code>from</code> is greater than its <code>to</code>, or if no date in the range has an allowed time.</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomDate</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// Generates a random date between 1970/01/01 and now.</span><br/><span class="hl-0">generateRandomDate</span><span class="hl-1">();</span><br/><br/><span class="hl-9">// Generates a random date of 2024, during the office hours.</span><br/><span class="hl-0">generateRandomDate</span><span class="hl-1">(</span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-8">2024</span><span class="hl-1">, </span><span class="hl-8">11</span><span class="hl-1">, </span><span class="hl-8">31</span><span class="hl-1">, </span><span class="hl-8">23</span><span class="hl-1">, </span><span class="hl-8">59</span><span class="hl-1">, </span><span class="hl-8">59</span><span class="hl-1">), </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-8">2024</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">), {</span><br/><span class="hl-1">  </span><span class="hl-4">hoursFrom:</span><span class="hl-1"> </span><span class="hl-8">9</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">hoursTo:</span><span class="hl-1"> </span><span class="hl-8">17</span><span class="hl-1">,</span><br/><span class="hl-1">}); </span><span class="hl-9">// eg. 2024-05-14 10:27:41</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="number" class="tsd-anchor-link">Number<a href="#number" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Utilities about random integer and float number generation.</p>
+<h4 id="_-5" class="tsd-anchor-link"><code>generateRandomNumber</code><a href="#_-5" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a random integer/float number between the given min and max values, both included. To return an integer leave <code>decimals</code> to 0. Every number with <code>decimals</code> digits after the decimal point, between min and max, has the same chance to be generated. It throws a <code>RangeError</code> if <code>min</code> is greater than <code>max</code>, if <code>decimals</code> is not a non-negative integer, or if no number with <code>decimals</code> digits is between min and max.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-4">max</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">, </span><span class="hl-4">min</span><span class="hl-1"> = </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-4">decimals</span><span class="hl-1"> = </span><span class="hl-8">0</span><span class="hl-1">): </span><span class="hl-6">number</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#generaterandomnumber" id="generaterandomnumber" style="color: inherit; text-decoration: none;">
-  <h4><code>generateRandomNumber</code></h4>
-</a>
-<p>Generates a random integer/float number between the given min and max values, both included. To return an integer leave <code>decimals</code> to 0. If <code>decimals</code> is greater than 0, the max value will be an integer anyway.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">max</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">, </span><span class="hl-7">min</span><span class="hl-1"> = </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-7">decimals</span><span class="hl-1"> = </span><span class="hl-2">0</span><span class="hl-1">): </span><span class="hl-6">number</span><span class="hl-1">;</span>
-</code></pre>
-<p>Examples</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomNumber</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generates a random number between 0 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">100</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 42</span><br/><br/><span class="hl-3">// Generates a random number between 1 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">10</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 7</span><br/><br/><span class="hl-3">// Generates a random number between 0 and 1.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-2">1</span><span class="hl-1">, </span><span class="hl-2">2</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. 0.42</span>
-</code></pre>
-
-<a href="#string" id="string" style="color: inherit; text-decoration: none;">
-  <h3>String</h3>
-</a>
-<p>Utilities to generate random strings. It is possible to choose between a chars array or give a pattern.</p>
-
-<a href="#generaterandomstringfromchars" id="generaterandomstringfromchars" style="color: inherit; text-decoration: none;">
-  <h4><code>generateRandomStringFromChars</code></h4>
-</a>
-<p>Generates a random string from the given chars and of the given length.</p>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-7">chars</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">, </span><span class="hl-7">length</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">): </span><span class="hl-6">string</span><span class="hl-1">;</span>
-</code></pre>
 <p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-3">// Generates a random string of 5 chars chosen between X and Y.</span><br/><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-4">&quot;XY&quot;</span><span class="hl-1">, </span><span class="hl-2">5</span><span class="hl-1">);</span><br/><span class="hl-3">// eg. XXYXY</span>
-</code></pre>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomNumber</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// Generates a random number between 0 and 100.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">100</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. 42</span><br/><br/><span class="hl-9">// Generates a random number between 1 and 10.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">10</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. 7</span><br/><br/><span class="hl-9">// Generates a random number between 0 and 1, with 2 decimals.</span><br/><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. 0.42</span>
+</code><button type="button">Copy</button></pre>
 
-<a href="#generaterandomstringfrompattern" id="generaterandomstringfrompattern" style="color: inherit; text-decoration: none;">
-  <h4><code>generateRandomStringFromPattern</code></h4>
-</a>
+<h3 id="password" class="tsd-anchor-link">Password<a href="#password" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Utilities about password generation. Passwords are generated from the password requirements of <a href="https://github.com/mantlebee/ts-core"><code>@mantlebee/ts-core</code></a> (<code>IPasswordRequirement</code>, <code>PasswordRequirementsDefault</code>, …).</p>
+<h4 id="_-6" class="tsd-anchor-link"><code>generateRandomPassword</code><a href="#_-6" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a random password that satisfies the given requirements, using a cryptographically secure random generator only.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomPassword</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-4">requirements</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">IPasswordRequirement</span><span class="hl-1">&gt; = </span><span class="hl-0">PasswordRequirementsDefault</span><span class="hl-1">(),</span><br/><span class="hl-1">): </span><span class="hl-6">string</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<ul>
+<li>The password contains one char for each requirement with <code>allowedChars</code>, then chars picked uniformly from all the allowed chars, until it is valid for <code>validatePassword</code>. The chars are shuffled at the end.</li>
+<li>The length is defined by the requirements only (e.g. <code>PasswordRequirementLength</code>): the password is as short as the requirements allow, and never more than 256 chars, to avoid infinite loops when there is no maximum length.</li>
+<li>It throws a <code>NoAllowedCharsException</code> when no requirement has <code>allowedChars</code> (<code>code</code> is <code>GenerateRandomPasswordExceptionCodes.NoAllowedChars</code>), or an <code>UnsatisfiableRequirementsException</code> when the requirements can't be satisfied, e.g. a <code>minLength</code> greater than a <code>maxLength</code> or a <code>PasswordRequirementMatchPassword</code> (<code>code</code> is <code>GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements</code>). Both extend the <code>Exception</code> of <code>@mantlebee/ts-core</code>.</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementIncludesLowercaseLetter</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementIncludesSymbol</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementLength</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">PasswordRequirementsDefault</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-core&quot;</span><span class="hl-1">;</span><br/><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomPassword</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// 8-30 chars, lowercase, uppercase, number, symbol, no whitespaces.</span><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">(); </span><span class="hl-9">// 8 chars, eg. &quot;q7}Rk;bN&quot;</span><br/><br/><span class="hl-9">// 24 chars with the default categories.</span><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">([</span><br/><span class="hl-1">  ...</span><span class="hl-0">PasswordRequirementsDefault</span><span class="hl-1">(),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementLength</span><span class="hl-1">(</span><span class="hl-8">24</span><span class="hl-1">),</span><br/><span class="hl-1">]);</span><br/><br/><span class="hl-9">// Lowercase letters and the symbols - and _ only, 12 chars.</span><br/><span class="hl-0">generateRandomPassword</span><span class="hl-1">([</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementLength</span><span class="hl-1">(</span><span class="hl-8">12</span><span class="hl-1">, </span><span class="hl-8">12</span><span class="hl-1">),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementIncludesLowercaseLetter</span><span class="hl-1">(),</span><br/><span class="hl-1">  </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">PasswordRequirementIncludesSymbol</span><span class="hl-1">(</span><span class="hl-2">&quot;-_&quot;</span><span class="hl-1">),</span><br/><span class="hl-1">]); </span><span class="hl-9">// 12 chars, eg. &quot;kd-qe_wnz-ab&quot;</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="secure" class="tsd-anchor-link">Secure<a href="#secure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Utilities that use a cryptographically secure random generator: Web Crypto (<code>globalThis.crypto.getRandomValues</code>), available in browsers and in Node.js 19+. Use them, or <code>generateRandomPassword</code>, for passwords, tokens or other secrets.</p>
+<h4 id="_-7" class="tsd-anchor-link"><code>generateSecureRandomInteger</code><a href="#_-7" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a cryptographically secure random integer between 0 (included) and <code>maxExclusive</code> (excluded), without modulo bias. Unlike <code>generateRandomNumber</code>, the max value is <strong>excluded</strong>, so the result can be used directly as an index of a list of <code>maxExclusive</code> items. <code>maxExclusive</code> must be an integer between 1 and 2^32, otherwise a <code>RangeError</code> is thrown.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateSecureRandomInteger</span><span class="hl-1">(</span><span class="hl-4">maxExclusive</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">): </span><span class="hl-6">number</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateSecureRandomInteger</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// Rolls a dice.</span><br/><span class="hl-0">generateSecureRandomInteger</span><span class="hl-1">(</span><span class="hl-8">6</span><span class="hl-1">) + </span><span class="hl-8">1</span><span class="hl-1">;</span><br/><span class="hl-9">// eg. 4</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="_-8" class="tsd-anchor-link"><code>extractSecureRandomItem</code><a href="#_-8" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Extracts a random item from an array, using a cryptographically secure random generator. The array is not modified. Throws a <code>RangeError</code> if the array is empty.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">extractSecureRandomItem</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><span class="hl-4">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;): </span><span class="hl-6">TItem</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">extractSecureRandomItem</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">extractSecureRandomItem</span><span class="hl-1">([</span><span class="hl-2">&quot;rock&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;paper&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;scissors&quot;</span><span class="hl-1">]); </span><span class="hl-9">// eg. &quot;paper&quot;</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="_-9" class="tsd-anchor-link"><code>shuffleSecureRandomItems</code><a href="#_-9" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Returns a shuffled copy of an array (Fisher-Yates), using a cryptographically secure random generator. The array is not modified.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">shuffleSecureRandomItems</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;(</span><span class="hl-4">items</span><span class="hl-1">: </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;): </span><span class="hl-6">List</span><span class="hl-1">&lt;</span><span class="hl-6">TItem</span><span class="hl-1">&gt;;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">shuffleSecureRandomItems</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-7">items</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">[] = [</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">, </span><span class="hl-8">3</span><span class="hl-1">, </span><span class="hl-8">4</span><span class="hl-1">];</span><br/><span class="hl-0">shuffleSecureRandomItems</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// eg. [3, 1, 4, 2]</span><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">items</span><span class="hl-1">); </span><span class="hl-9">// [1,2,3,4]</span>
+</code><button type="button">Copy</button></pre>
+
+<h3 id="string" class="tsd-anchor-link">String<a href="#string" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p>Utilities to generate random strings. It is possible to choose between a chars array or give a pattern.</p>
+<h4 id="_-10" class="tsd-anchor-link"><code>generateRandomStringFromChars</code><a href="#_-10" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Generates a random string from the given chars and of the given length.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-4">chars</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">, </span><span class="hl-4">length</span><span class="hl-1">: </span><span class="hl-6">number</span><span class="hl-1">): </span><span class="hl-6">string</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Examples:</p>
+<pre><code class="ts"><span class="hl-9">// Generates a random string of 5 chars chosen between X and Y.</span><br/><span class="hl-0">generateRandomStringFromChars</span><span class="hl-1">(</span><span class="hl-2">&quot;XY&quot;</span><span class="hl-1">, </span><span class="hl-8">5</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. XXYXY</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="_-11" class="tsd-anchor-link"><code>generateRandomStringFromPattern</code><a href="#_-11" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
 <p>Generates a random string from the given pattern. The length of the string depends on pattern itself.</p>
-<p>Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, ecc.</p>
-<p>Patterns are defined by special chars, escape brackets and repeater brackets:</p>
+<p>Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, etc.</p>
+<p>Patterns are defined by placeholders, escape brackets and repeater brackets. Any other char is copied as it is.</p>
 <table>
 <thead>
 <tr>
-<th>Special Chars</th>
+<th>Placeholders</th>
 <th></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><strong><code>A</code></strong></td>
 <td>random uppercase letter</td>
 </tr>
@@ -151,9 +252,14 @@
 </tr>
 <tr>
 <td><strong><code>0</code></strong></td>
-<td>random integer number</td>
+<td>random digit</td>
 </tr>
-</tbody></table>
+<tr>
+<td><strong><code>mm</code></strong></td>
+<td>two-digit month, from 01 (January) to 12 (December)</td>
+</tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
@@ -161,30 +267,101 @@
 <th></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><strong><code>(</code></strong> ... <strong><code>)</code></strong></td>
-<td>chars inside are not considered special chars</td>
+<td>chars inside are copied as they are, placeholders included</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
-<th>Repeater brackets</th>
+<th>Repeater brackets, after <code>A</code>, <code>a</code> or <code>0</code></th>
 <th></th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><strong><code>{</code></strong> n <strong><code>}</code></strong></td>
-<td>repeats previous special char n-1 times</td>
+<td>the placeholder generates n chars</td>
 </tr>
 <tr>
 <td><strong><code>{</code></strong> n <strong><code>,</code></strong> M <strong><code>}</code></strong></td>
-<td>repeats previous special char between n and M times minus one</td>
+<td>the placeholder generates between n and M chars, both included</td>
 </tr>
-</tbody></table>
-<pre><code class="language-ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-7">pattern</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">): </span><span class="hl-6">string</span>
-</code></pre>
+</tbody>
+</table>
+<p>It throws a <code>SyntaxError</code> if an escape bracket is not closed, and a <code>RangeError</code> if the min of a repeater is greater than its max, e.g. <code>a{12,8}</code>.</p>
+<pre><code class="ts"><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">pattern</span><span class="hl-1">: </span><span class="hl-6">string</span><span class="hl-1">): </span><span class="hl-6">string</span><span class="hl-1">;</span>
+</code><button type="button">Copy</button></pre>
+
 <p>Examples:</p>
-<pre><code class="language-ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-7">generateRandomStringFromPattern</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-4">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// Generates a random telephone number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;+000-00000&quot;</span><span class="hl-1">) </span><span class="hl-3">// or &quot;+0{3}-0{5}&quot;</span><br/><span class="hl-3">// eg. +333-41187</span><br/><br/><span class="hl-3">// Generates a random credit card number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">) </span><span class="hl-3">// or &quot;0{4}-0{4}-0{4}-0{4}&quot;</span><br/><span class="hl-3">// eg. 3244-6512-9983-2379</span><br/><br/><span class="hl-3">// Generates a random italian IBAN compliant string.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">)</span><br/><span class="hl-3">// eg. IT60X0542811101000000123456</span><br/><br/><span class="hl-3">// Generates a random lowercase string with first letter uppercase and length variable between 8 and 12 chars.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-4">&quot;Aa{8,12}&quot;</span><span class="hl-1">)</span><br/><span class="hl-3">// eg. Rdnaetdaw</span>
-</code></pre>
-</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-type-alias"><a href="modules.html#GenerateRandomDateOptions" class="tsd-kind-icon">Generate<wbr/>Random<wbr/>Date<wbr/>Options</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#extractRandomItem" class="tsd-kind-icon">extract<wbr/>Random<wbr/>Item</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#extractRandomItems" class="tsd-kind-icon">extract<wbr/>Random<wbr/>Items</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomBoolean" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Boolean</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomColor" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Color</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomDate" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Date</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomNumber" class="tsd-kind-icon">generate<wbr/>Random<wbr/>Number</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomStringFromChars" class="tsd-kind-icon">generate<wbr/>Random<wbr/>String<wbr/>From<wbr/>Chars</a></li><li class="tsd-kind-function"><a href="modules.html#generateRandomStringFromPattern" class="tsd-kind-icon">generate<wbr/>Random<wbr/>String<wbr/>From<wbr/>Pattern</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
+<pre><code class="ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">generateRandomStringFromPattern</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;@mantlebee/ts-random&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-9">// Generates a random telephone number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;+000-00000&quot;</span><span class="hl-1">); </span><span class="hl-9">// or &quot;+0{3}-0{5}&quot;</span><br/><span class="hl-9">// eg. +333-41187</span><br/><br/><span class="hl-9">// Generates a random card due-date.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;mm/00&quot;</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. 05/24</span><br/><br/><span class="hl-9">// Generates a random credit card number.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">); </span><span class="hl-9">// or &quot;0{4}-0{4}-0{4}-0{4}&quot;</span><br/><span class="hl-9">// eg. 3244-6512-9983-2379</span><br/><br/><span class="hl-9">// Generates a random italian IBAN compliant string.</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. IT60X0542811101000000123456</span><br/><br/><span class="hl-9">// Generates a string with first letter uppercase, followed by 8 to 12 lowercase letters (9 to 13 chars in total).</span><br/><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;Aa{8,12}&quot;</span><span class="hl-1">);</span><br/><span class="hl-9">// eg. Rdnaetdaw</span>
+</code><button type="button">Copy</button></pre>
+
+</div></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#typescript-random"><span>Type<wbr/>Script <wbr/>Random</span></a>
+<ul>
+<li><a href="#installation"><span>Installation</span></a></li>
+<li><a href="#errors"><span>Errors</span></a></li>
+<li><a href="#why"><span>Why</span></a></li>
+<li><a href="#how-to"><span>How <wbr/>To</span></a></li>
+<li>
+<ul>
+<li><a href="#array"><span>Array</span></a></li>
+<li>
+<ul>
+<li><a href="#_"><span></span></a></li>
+<li><a href="#_-1"><span></span></a></li></ul></li>
+<li><a href="#boolean"><span>Boolean</span></a></li>
+<li>
+<ul>
+<li><a href="#_-2"><span></span></a></li></ul></li>
+<li><a href="#color"><span>Color</span></a></li>
+<li>
+<ul>
+<li><a href="#_-3"><span></span></a></li></ul></li>
+<li><a href="#date"><span>Date</span></a></li>
+<li>
+<ul>
+<li><a href="#_-4"><span></span></a></li></ul></li>
+<li><a href="#number"><span>Number</span></a></li>
+<li>
+<ul>
+<li><a href="#_-5"><span></span></a></li></ul></li>
+<li><a href="#password"><span>Password</span></a></li>
+<li>
+<ul>
+<li><a href="#_-6"><span></span></a></li></ul></li>
+<li><a href="#secure"><span>Secure</span></a></li>
+<li>
+<ul>
+<li><a href="#_-7"><span></span></a></li>
+<li><a href="#_-8"><span></span></a></li>
+<li><a href="#_-9"><span></span></a></li></ul></li>
+<li><a href="#string"><span>String</span></a></li>
+<li>
+<ul>
+<li><a href="#_-10"><span></span></a></li>
+<li><a href="#_-11"><span></span></a></li></ul></li></ul></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="modules.html">@mantlebee/ts-random</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>
