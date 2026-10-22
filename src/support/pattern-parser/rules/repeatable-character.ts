@@ -13,14 +13,14 @@ type RepeatableCharacter = "0" | "A" | "a";
 
 // Getters, not their results: calling them here would run code at module load,
 // which bundlers treat as a side effect and never tree-shake.
-const CHARS_MAP: Record<RepeatableCharacter, () => string> = {
+const CharsMap: Record<RepeatableCharacter, () => string> = {
   "0": getNumberChars,
   A: getUppercaseChars,
   a: getLowercaseChars,
 };
 
 const getRandomChars = (char: RepeatableCharacter, length: number) => {
-  const chars = CHARS_MAP[char]();
+  const chars = CharsMap[char]();
   return generateRandomStringFromChars(chars, length);
 };
 
