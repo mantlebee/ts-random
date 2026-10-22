@@ -1,2 +1,1 @@
-export * from "./types";
-export * from "./utils";
+export * from "./generate-random-date";

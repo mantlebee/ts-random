@@ -4,7 +4,7 @@ import {
   getUppercaseChars,
 } from "@mantlebee/ts-core";
 
-import { generateRandomStringFromChars } from "../utils";
+import { generateRandomStringFromChars } from "../generate-random-string-from-chars";
 
 describe("common", () => {
   describe("utils", () => {

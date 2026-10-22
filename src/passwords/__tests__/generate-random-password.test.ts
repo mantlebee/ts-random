@@ -22,7 +22,7 @@ import {
   NoAllowedCharsException,
   UnsatisfiableRequirementsException,
 } from "../exceptions";
-import { generateRandomPassword } from "../utils";
+import { generateRandomPassword } from "../generate-random-password";
 
 const generateRandomPasswords = (
   count: number,

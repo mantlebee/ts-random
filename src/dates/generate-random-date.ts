@@ -1,6 +1,13 @@
 import { generateRandomNumber } from "@/numbers";
 
-import { GenerateRandomDateOptions } from "./types";
+export type GenerateRandomDateOptions = {
+  hoursFrom?: number;
+  hoursTo?: number;
+  minutesFrom?: number;
+  minutesTo?: number;
+  secondsFrom?: number;
+  secondsTo?: number;
+};
 
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
 

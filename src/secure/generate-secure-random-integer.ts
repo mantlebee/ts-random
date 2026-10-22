@@ -1,5 +1,3 @@
-import { List } from "@mantlebee/ts-core";
-
 /**
  * Generates a cryptographically secure random integer between 0 (included) and
  * `maxExclusive` (excluded).
@@ -36,45 +34,4 @@ export function generateSecureRandomInteger(maxExclusive: number): number {
   do value = globalThis.crypto.getRandomValues(buffer)[0] as number;
   while (value >= limit);
   return value % maxExclusive;
-}
-
-/**
- * Extracts a random item from an array using a cryptographically secure random
- * generator (see {@link generateSecureRandomInteger}). The array is not modified.
- * @example
- * ```ts
- * extractSecureRandomItem(["a", "b", "c"])
- * // eg. "b"
- * ```
- * @param items Items from which to extract a random one.
- * @returns a random item from the list.
- * @throws RangeError if the list is empty.
- */
-export function extractSecureRandomItem<TItem>(items: List<TItem>): TItem {
-  // The index is in range, so the item exists, even if it is `undefined`.
-  return items[generateSecureRandomInteger(items.length)] as TItem;
-}
-
-/**
- * Shuffles an array with the Fisher-Yates algorithm and a cryptographically
- * secure random generator (see {@link generateSecureRandomInteger}).
- * The original array is not modified.
- * @example
- * ```ts
- * shuffleSecureRandomItems([1, 2, 3, 4])
- * // eg. [3, 1, 4, 2]
- * ```
- * @param items Items to shuffle.
- * @returns a shuffled copy of the list.
- */
-export function shuffleSecureRandomItems<TItem>(
-  items: List<TItem>,
-): List<TItem> {
-  const result = [...items];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = generateSecureRandomInteger(i + 1);
-    // Both indexes are in range, so the items exist.
-    [result[i], result[j]] = [result[j], result[i]] as [TItem, TItem];
-  }
-  return result;
 }
