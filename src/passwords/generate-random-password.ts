@@ -53,7 +53,7 @@ const GenerateRandomPasswordMaxLength = 256;
  * @param requirements Requirements of the password, default `PasswordRequirementsDefault()`.
  * @returns a random password that satisfies the requirements.
  * @throws {@link NoAllowedCharsException} if no requirement has `allowedChars`.
- * @throws {@link UnsatisfiableRequirementsException} if the requirements can't be satisfied within {@link GenerateRandomPasswordMaxLength}
+ * @throws {@link UnsatisfiableRequirementsException} if the requirements can't be satisfied within 256
  * chars, e.g. when a `minLength` is greater than a `maxLength`, or with
  * `PasswordRequirementMatchPassword`.
  */
