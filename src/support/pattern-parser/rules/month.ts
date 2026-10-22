@@ -1,4 +1,5 @@
 import { generateRandomNumber } from "@/numbers";
+
 import { RuleBase } from "./base";
 
 export class MonthRule extends RuleBase {
