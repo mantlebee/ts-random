@@ -1,6 +1,6 @@
 import { List } from "@mantlebee/ts-core";
 
-import { generateRandomDate } from "../dates";
+import { generateRandomDate } from "../generate-random-date";
 
 const firstDate = new Date(1970, 0, 1, 0, 0, 0);
 const startDate = new Date(1990, 0, 1, 0, 0, 0);

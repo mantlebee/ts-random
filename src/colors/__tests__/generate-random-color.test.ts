@@ -1,6 +1,6 @@
 import { Color, IColor, List } from "@mantlebee/ts-core";
 
-import { generateRandomColor } from "../colors";
+import { generateRandomColor } from "../generate-random-color";
 
 describe("common", () => {
   describe("utils", () => {

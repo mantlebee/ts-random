@@ -1,6 +1,6 @@
 import { List, numberIsInteger } from "@mantlebee/ts-core";
 
-import { generateRandomNumber } from "../numbers";
+import { generateRandomNumber } from "../generate-random-number";
 
 describe("common", () => {
   describe("utils", () => {

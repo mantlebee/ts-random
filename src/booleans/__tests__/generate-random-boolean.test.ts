@@ -1,6 +1,6 @@
 import { List } from "@mantlebee/ts-core";
 
-import { generateRandomBoolean } from "../booleans";
+import { generateRandomBoolean } from "../generate-random-boolean";
 
 describe("common", () => {
   describe("utils", () => {

@@ -1,4 +1,4 @@
-import { generateRandomStringFromPattern } from "../strings";
+import { generateRandomStringFromPattern } from "../generate-random-string-from-pattern";
 
 describe("common", () => {
   describe("utils", () => {
