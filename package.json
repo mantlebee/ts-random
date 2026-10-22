@@ -16,7 +16,115 @@
         "default": "./dist/index.js"
       }
     },
+    "./arrays": {
+      "import": {
+        "types": "./dist/esm/arrays/index.d.mts",
+        "default": "./dist/esm/arrays/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/arrays/index.d.ts",
+        "default": "./dist/arrays/index.js"
+      }
+    },
+    "./booleans": {
+      "import": {
+        "types": "./dist/esm/booleans/index.d.mts",
+        "default": "./dist/esm/booleans/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/booleans/index.d.ts",
+        "default": "./dist/booleans/index.js"
+      }
+    },
+    "./colors": {
+      "import": {
+        "types": "./dist/esm/colors/index.d.mts",
+        "default": "./dist/esm/colors/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/colors/index.d.ts",
+        "default": "./dist/colors/index.js"
+      }
+    },
+    "./dates": {
+      "import": {
+        "types": "./dist/esm/dates/index.d.mts",
+        "default": "./dist/esm/dates/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/dates/index.d.ts",
+        "default": "./dist/dates/index.js"
+      }
+    },
+    "./numbers": {
+      "import": {
+        "types": "./dist/esm/numbers/index.d.mts",
+        "default": "./dist/esm/numbers/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/numbers/index.d.ts",
+        "default": "./dist/numbers/index.js"
+      }
+    },
+    "./passwords": {
+      "import": {
+        "types": "./dist/esm/passwords/index.d.mts",
+        "default": "./dist/esm/passwords/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/passwords/index.d.ts",
+        "default": "./dist/passwords/index.js"
+      }
+    },
+    "./secure": {
+      "import": {
+        "types": "./dist/esm/secure/index.d.mts",
+        "default": "./dist/esm/secure/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/secure/index.d.ts",
+        "default": "./dist/secure/index.js"
+      }
+    },
+    "./strings": {
+      "import": {
+        "types": "./dist/esm/strings/index.d.mts",
+        "default": "./dist/esm/strings/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/strings/index.d.ts",
+        "default": "./dist/strings/index.js"
+      }
+    },
     "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "arrays": [
+        "./dist/src/arrays/index.d.ts"
+      ],
+      "booleans": [
+        "./dist/src/booleans/index.d.ts"
+      ],
+      "colors": [
+        "./dist/src/colors/index.d.ts"
+      ],
+      "dates": [
+        "./dist/src/dates/index.d.ts"
+      ],
+      "numbers": [
+        "./dist/src/numbers/index.d.ts"
+      ],
+      "passwords": [
+        "./dist/src/passwords/index.d.ts"
+      ],
+      "secure": [
+        "./dist/src/secure/index.d.ts"
+      ],
+      "strings": [
+        "./dist/src/strings/index.d.ts"
+      ]
+    }
   },
   "sideEffects": false,
   "files": [

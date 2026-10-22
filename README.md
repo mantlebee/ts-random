@@ -19,6 +19,16 @@ npm install @mantlebee/ts-random @mantlebee/ts-core
 The package ships CommonJS and tree-shakable ES modules: bundlers keep only the
 functions that are imported.
 
+Each area also has its own entry point, which loads only that area and what it
+uses: useful with CommonJS, which is not tree-shaken.
+
+```ts
+import { generateRandomPassword } from "@mantlebee/ts-random/passwords";
+```
+
+The areas are `arrays`, `booleans`, `colors`, `dates`, `numbers`, `passwords`,
+`secure` and `strings`.
+
 Utilities about random data generation are spearated by return type:
 
 - [Boolean](#boolean)
