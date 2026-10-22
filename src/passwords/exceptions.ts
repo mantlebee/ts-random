@@ -5,9 +5,9 @@ import { Exception } from "@mantlebee/ts-core";
  */
 export const GenerateRandomPasswordExceptionCodes = {
   /** No requirement has `allowedChars`, so there are no chars to pick. */
-  noAllowedChars: "NoAllowedChars",
+  NoAllowedChars: "NoAllowedChars",
   /** The requirements can't be satisfied within the maximum length (256). */
-  unsatisfiableRequirements: "UnsatisfiableRequirements",
+  UnsatisfiableRequirements: "UnsatisfiableRequirements",
 } as const;
 
 /**
@@ -21,7 +21,7 @@ export type GenerateRandomPasswordExceptionCodes =
 export class NoAllowedCharsException extends Exception {
   public constructor() {
     super(
-      GenerateRandomPasswordExceptionCodes.noAllowedChars,
+      GenerateRandomPasswordExceptionCodes.NoAllowedChars,
       "generateRandomPassword: no requirement has allowed chars",
     );
     this.name = "NoAllowedCharsException";
@@ -35,7 +35,7 @@ export class NoAllowedCharsException extends Exception {
 export class UnsatisfiableRequirementsException extends Exception {
   public constructor() {
     super(
-      GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements,
+      GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements,
       "generateRandomPassword: requirements cannot be satisfied",
     );
     this.name = "UnsatisfiableRequirementsException";

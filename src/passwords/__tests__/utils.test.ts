@@ -160,7 +160,7 @@ describe("passwords", () => {
         expectException(
           [],
           NoAllowedCharsException,
-          GenerateRandomPasswordExceptionCodes.noAllowedChars,
+          GenerateRandomPasswordExceptionCodes.NoAllowedChars,
         );
       });
 
@@ -171,7 +171,7 @@ describe("passwords", () => {
             new PasswordRequirementNoWhitespaces(),
           ],
           NoAllowedCharsException,
-          GenerateRandomPasswordExceptionCodes.noAllowedChars,
+          GenerateRandomPasswordExceptionCodes.NoAllowedChars,
         );
       });
 
@@ -182,7 +182,7 @@ describe("passwords", () => {
             new PasswordRequirementMatchPassword(() => "Password1!"),
           ],
           UnsatisfiableRequirementsException,
-          GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements,
+          GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements,
         );
       });
 
@@ -194,7 +194,7 @@ describe("passwords", () => {
             new PasswordRequirementIncludesLowercaseLetter(),
           ],
           UnsatisfiableRequirementsException,
-          GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements,
+          GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements,
         );
       });
 
@@ -207,7 +207,7 @@ describe("passwords", () => {
             new PasswordRequirementIncludesNumber(),
           ],
           UnsatisfiableRequirementsException,
-          GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements,
+          GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements,
         );
       });
     });

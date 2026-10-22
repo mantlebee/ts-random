@@ -214,7 +214,7 @@ function generateRandomPassword(
 
 - The password contains one char for each requirement with `allowedChars`, then chars picked uniformly from all the allowed chars, until it is valid for `validatePassword`. The chars are shuffled at the end.
 - The length is defined by the requirements only (e.g. `PasswordRequirementLength`): the password is as short as the requirements allow, and never more than 256 chars, to avoid infinite loops when there is no maximum length.
-- It throws a `NoAllowedCharsException` when no requirement has `allowedChars` (`code` is `GenerateRandomPasswordExceptionCodes.noAllowedChars`), or an `UnsatisfiableRequirementsException` when the requirements can't be satisfied, e.g. a `minLength` greater than a `maxLength` or a `PasswordRequirementMatchPassword` (`code` is `GenerateRandomPasswordExceptionCodes.unsatisfiableRequirements`). Both extend the `Exception` of `@mantlebee/ts-core`.
+- It throws a `NoAllowedCharsException` when no requirement has `allowedChars` (`code` is `GenerateRandomPasswordExceptionCodes.NoAllowedChars`), or an `UnsatisfiableRequirementsException` when the requirements can't be satisfied, e.g. a `minLength` greater than a `maxLength` or a `PasswordRequirementMatchPassword` (`code` is `GenerateRandomPasswordExceptionCodes.UnsatisfiableRequirements`). Both extend the `Exception` of `@mantlebee/ts-core`.
 
 Examples:
 
