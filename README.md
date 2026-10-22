@@ -48,6 +48,25 @@ cryptographically secure random generator (Web Crypto, available in browsers and
 in Node.js 19+). The others use `Math.random`: don't use them for passwords,
 tokens or other secrets.
 
+## Errors
+
+The functions throw only when an argument is not valid, or when the request
+can't be satisfied:
+
+- `RangeError` when a value is out of its range: an empty list, a `min` greater
+  than its `max`, an invalid date, an option out of its bounds, …
+- `SyntaxError` when a pattern of `generateRandomStringFromPattern` is malformed.
+- A subclass of the `Exception` of `@mantlebee/ts-core` for the domain errors,
+  which depend on what the arguments mean rather than on their form. Its
+  `code` tells them apart, without checking the message. Today they are thrown
+  by `generateRandomPassword` only: `NoAllowedCharsException` and
+  `UnsatisfiableRequirementsException`, whose codes are in
+  `GenerateRandomPasswordExceptionCodes`.
+
+Messages start with the name of the function that found the error, e.g.
+`generateRandomNumber: min 12 is greater than max 8`. They are meant for
+developers: to handle an error, check its class or its `code`, not its message.
+
 ## Why
 
 The project borns to support another repository, [`@mantlebee/fake-data-only`](https://github.com/mantlebee/fake-data-only), which allows to generate tables of fake data, with specific columns type and restrictions and related data between tables. I decided to extract the random data generation in order to have a smaller and indipendent project.
