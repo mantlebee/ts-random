@@ -27,12 +27,13 @@
     "coverage": "jest --coverage --collectCoverageFrom='./src/**'",
     "doc": "typedoc",
     "doc:publish": "npm run doc && node ./gh-pages.js",
-    "format": "prettier --write src scripts docs README.md \"*.{js,mjs,json}\"",
-    "format:check": "prettier --check src scripts docs README.md \"*.{js,mjs,json}\"",
+    "format": "prettier --write src scripts docs .github README.md \"*.{js,mjs,json}\"",
+    "format:check": "prettier --check src scripts docs .github README.md \"*.{js,mjs,json}\"",
     "lint": "eslint src",
     "prepublishOnly": "npm run build",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
