@@ -23,7 +23,7 @@ const getRandomChars = (char: string, length: number) => {
 };
 
 const getRepeat = (match: string) => {
-  if (/,/.test(match)) {
+  if (match.includes(",")) {
     const range = match
       .substring(2, match.length)
       .split(",")

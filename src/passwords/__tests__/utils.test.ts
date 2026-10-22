@@ -131,9 +131,9 @@ describe("passwords", () => {
         ];
         const passwords = generateRandomPasswords(200, requirements);
         const counts = new Map<string, number>();
-        passwords.forEach((a) =>
-          Array.from(a).forEach((b) => counts.set(b, (counts.get(b) ?? 0) + 1)),
-        );
+        passwords.forEach((a) => {
+          Array.from(a).forEach((b) => counts.set(b, (counts.get(b) ?? 0) + 1));
+        });
         const alphabet = getLowercaseChars() + getNumberChars();
         expect(counts.size).toBe(alphabet.length);
         // 20000 chars over 36 distinct chars: ~556 each, std dev ~23.
