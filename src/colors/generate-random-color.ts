@@ -1,6 +1,6 @@
 import { Color, IColor } from "@mantlebee/ts-core";
 
-import { generateRandomNumber } from "@/numbers";
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 
 /**
  * Random value of a channel between the two given ones, in any order: `from`

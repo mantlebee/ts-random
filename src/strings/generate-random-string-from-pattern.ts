@@ -1,4 +1,4 @@
-import { parsePattern } from "@/support";
+import { parsePattern } from "@/support/pattern-parser/parse-pattern";
 
 /**
  * Generates a random string from the given pattern. The length of the string depends on pattern itself.

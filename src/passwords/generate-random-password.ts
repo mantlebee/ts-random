@@ -5,7 +5,8 @@ import {
   validatePassword,
 } from "@mantlebee/ts-core";
 
-import { extractSecureRandomItem, shuffleSecureRandomItems } from "@/secure";
+import { extractSecureRandomItem } from "@/secure/extract-secure-random-item";
+import { shuffleSecureRandomItems } from "@/secure/shuffle-secure-random-items";
 
 import {
   NoAllowedCharsException,

@@ -1,4 +1,4 @@
-import { generateRandomNumber } from "@/numbers";
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 
 import { TimeGrid, TimeRange } from "./time-grid";
 

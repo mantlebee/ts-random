@@ -1,12 +1,10 @@
 import { List } from "@mantlebee/ts-core";
 
 import { PatternMatch, PatternRule } from "./pattern-rule";
-import {
-  matchBrackets,
-  matchLiteralChar,
-  matchMonth,
-  matchRepeatableCharacter,
-} from "./rules";
+import { matchBrackets } from "./rules/brackets";
+import { matchLiteralChar } from "./rules/literal-char";
+import { matchMonth } from "./rules/month";
+import { matchRepeatableCharacter } from "./rules/repeatable-character";
 
 /**
  * Rules tried, in order, at every index of the pattern.

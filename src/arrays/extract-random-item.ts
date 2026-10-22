@@ -1,6 +1,6 @@
 import { List } from "@mantlebee/ts-core";
 
-import { generateRandomNumber } from "@/numbers";
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 
 /**
  * Extracts a random item from an array. The extracted item can be removed or not from the array.

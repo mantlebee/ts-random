@@ -20,6 +20,19 @@ export default defineConfig({
     // It asks for `!`, which no-non-null-assertion of the strict preset
     // forbids: types are narrowed with `as`.
     "@typescript-eslint/non-nullable-type-assertion-style": "off",
+    // The barrels are the public entry point only: imported from the inside,
+    // they load the whole area and can make cycles.
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            regex: "^@/[^/]+$|/index$",
+            message: "Import the file that declares it, not a barrel.",
+          },
+        ],
+      },
+    ],
     // Error messages include the invalid numbers.
     "@typescript-eslint/restrict-template-expressions": [
       "error",

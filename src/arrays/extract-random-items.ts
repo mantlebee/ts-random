@@ -1,6 +1,6 @@
 import { List } from "@mantlebee/ts-core";
 
-import { generateRandomNumber } from "@/numbers";
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 
 import { extractRandomItem } from "./extract-random-item";
 

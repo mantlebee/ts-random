@@ -4,8 +4,7 @@ import {
   getUppercaseChars,
 } from "@mantlebee/ts-core";
 
-import { generateRandomNumber } from "@/numbers";
-// Not from `@/strings`, which imports the pattern parser: it would be a cycle.
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 import { generateRandomStringFromChars } from "@/strings/generate-random-string-from-chars";
 
 import { PatternRule } from "../pattern-rule";

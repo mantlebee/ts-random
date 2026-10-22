@@ -1,4 +1,4 @@
-import { generateRandomNumber } from "@/numbers";
+import { generateRandomNumber } from "@/numbers/generate-random-number";
 
 /**
  * Generates a random string from the given chars and of the given length.
