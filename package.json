@@ -1,7 +1,7 @@
 {
   "name": "@mantlebee/ts-random",
   "version": "1.0.0",
-  "description": "Utils function to generate random data.",
+  "description": "Utility functions to generate random data.",
   "main": "dist/index.js",
   "module": "dist/esm/index.mjs",
   "types": "dist/src/index.d.ts",
@@ -37,8 +37,11 @@
   },
   "keywords": [
     "typescript",
-    "common",
-    "utilities"
+    "random",
+    "faker",
+    "mock",
+    "password",
+    "test-data"
   ],
   "author": "MantleBee",
   "license": "MIT",
