@@ -1,4 +1,6 @@
+// Build configuration: tsconfig.json type-checks the tests too, the build
+// compiles the sources only.
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "src/**/*.test.ts"]
+  "exclude": ["node_modules", "src/**/__tests__"]
 }
