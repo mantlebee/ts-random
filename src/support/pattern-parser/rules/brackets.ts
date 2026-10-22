@@ -1,19 +1,17 @@
-import { RuleBase } from "./base";
+import { PatternRule } from "../pattern-rule";
 
-export class BracketsRule extends RuleBase {
-  public constructor(updateResult: (value: string) => void) {
-    super((text, currentIndex) => {
-      if (text[currentIndex] === "(") {
-        const endIndex = text.indexOf(")", currentIndex);
-        if (endIndex === -1)
-          throw new SyntaxError(
-            `generateRandomStringFromPattern: closing bracket not found for the one at index ${currentIndex}`,
-          );
-        const match = text.substring(currentIndex, endIndex + 1);
-        const value = text.substring(currentIndex + 1, endIndex);
-        return { endIndex, match, value };
-      }
-      return null;
-    }, updateResult);
-  }
-}
+/**
+ * Copies the chars inside the brackets as they are, placeholders included.
+ */
+export const matchBrackets: PatternRule = (pattern, index) => {
+  if (pattern[index] !== "(") return null;
+  const endIndex = pattern.indexOf(")", index);
+  if (endIndex === -1)
+    throw new SyntaxError(
+      `generateRandomStringFromPattern: closing bracket not found for the one at index ${index}`,
+    );
+  return {
+    length: endIndex - index + 1,
+    value: pattern.substring(index + 1, endIndex),
+  };
+};

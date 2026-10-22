@@ -1,14 +1,10 @@
-import { RuleBase } from "./base";
+import { PatternMatch } from "../pattern-rule";
 
 /**
- * Copies the current char as it is. It must be the last rule, so it applies
- * only to the chars that are not placeholders, brackets or repeaters.
+ * Copies the current char as it is. It applies to the chars that no rule
+ * matches, so it always matches.
  */
-export class LiteralCharRule extends RuleBase {
-  public constructor(updateResult: (value: string) => void) {
-    super((text, currentIndex) => {
-      const char = text.charAt(currentIndex);
-      return { endIndex: currentIndex, match: char, value: char };
-    }, updateResult);
-  }
-}
+export const matchLiteralChar = (
+  pattern: string,
+  index: number,
+): PatternMatch => ({ length: 1, value: pattern.charAt(index) });

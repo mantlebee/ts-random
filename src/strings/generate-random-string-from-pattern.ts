@@ -1,4 +1,4 @@
-import { PatternParser } from "@/support";
+import { parsePattern } from "@/support";
 
 /**
  * Generates a random string from the given pattern. The length of the string depends on pattern itself.
@@ -46,5 +46,5 @@ import { PatternParser } from "@/support";
  * @throws RangeError if the min of a repeater is greater than its max, e.g. `a{12,8}`.
  */
 export function generateRandomStringFromPattern(pattern: string): string {
-  return new PatternParser().parse(pattern);
+  return parsePattern(pattern);
 }

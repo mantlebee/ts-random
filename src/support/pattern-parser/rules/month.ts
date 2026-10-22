@@ -1,16 +1,12 @@
 import { generateRandomNumber } from "@/numbers";
 
-import { RuleBase } from "./base";
+import { PatternRule } from "../pattern-rule";
 
-export class MonthRule extends RuleBase {
-  public constructor(updateResult: (value: string) => void) {
-    super((text, currentIndex) => {
-      if (/^mm$/.test(text.substring(currentIndex, currentIndex + 2))) {
-        const endIndex = currentIndex + 1;
-        const value = `${generateRandomNumber(12, 1)}`.padStart(2, "0");
-        return { endIndex, match: "mm", value };
-      }
-      return null;
-    }, updateResult);
-  }
-}
+/**
+ * Generates a two-digit month, from 01 to 12, for `mm`.
+ */
+export const matchMonth: PatternRule = (pattern, index) => {
+  if (!pattern.startsWith("mm", index)) return null;
+  const value = `${generateRandomNumber(12, 1)}`.padStart(2, "0");
+  return { length: 2, value };
+};

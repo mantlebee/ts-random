@@ -8,7 +8,7 @@ import { generateRandomNumber } from "@/numbers";
 // Not from `@/strings`, which imports the pattern parser: it would be a cycle.
 import { generateRandomStringFromChars } from "@/strings/generate-random-string-from-chars";
 
-import { RuleBase } from "./base";
+import { PatternRule } from "../pattern-rule";
 
 type RepeatableCharacter = "0" | "A" | "a";
 
@@ -20,10 +20,10 @@ const CharsMap: Record<RepeatableCharacter, () => string> = {
   a: getLowercaseChars,
 };
 
-const getRandomChars = (char: RepeatableCharacter, length: number) => {
-  const chars = CharsMap[char]();
-  return generateRandomStringFromChars(chars, length);
-};
+// Not `char in CharsMap`, which is true for `constructor` too.
+const isRepeatableCharacter = (
+  char: string | undefined,
+): char is RepeatableCharacter => char === "0" || char === "A" || char === "a";
 
 /**
  * Number of chars of a repeater, `X{n}` or `X{n,M}`: the regex of the rule
@@ -37,25 +37,22 @@ const getRepeat = (match: string) => {
   return generateRandomNumber(max, min);
 };
 
-export class RepeatableCharacterRule extends RuleBase {
-  public constructor(
-    char: RepeatableCharacter,
-    updateResult: (value: string) => void,
-  ) {
-    super((text, currentIndex) => {
-      if (text[currentIndex] === char) {
-        if (/^.\{\d+(,\d+)?\}/.test(text.substring(currentIndex))) {
-          // The regex guarantees the closing bracket.
-          const endIndex = text.indexOf("}", currentIndex);
-          const match = text.substring(currentIndex, endIndex + 1);
-          const repeat = getRepeat(match);
-          const value = getRandomChars(char, repeat);
-          return { endIndex, match, value };
-        }
-        const value = getRandomChars(char, 1);
-        return { endIndex: currentIndex, match: char, value };
-      }
-      return null;
-    }, updateResult);
+/**
+ * Generates a random digit for `0`, uppercase letter for `A` and lowercase
+ * letter for `a`; with a repeater, `X{n}` or `X{n,M}`, it generates n to M of them.
+ */
+export const matchRepeatableCharacter: PatternRule = (pattern, index) => {
+  const char = pattern[index];
+  if (!isRepeatableCharacter(char)) return null;
+  const chars = CharsMap[char]();
+  if (/^.\{\d+(,\d+)?\}/.test(pattern.substring(index))) {
+    // The regex guarantees the closing bracket.
+    const endIndex = pattern.indexOf("}", index);
+    const repeat = getRepeat(pattern.substring(index, endIndex + 1));
+    return {
+      length: endIndex - index + 1,
+      value: generateRandomStringFromChars(chars, repeat),
+    };
   }
-}
+  return { length: 1, value: generateRandomStringFromChars(chars, 1) };
+};

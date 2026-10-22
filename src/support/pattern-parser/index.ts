@@ -1,1 +1,1 @@
-export * from "./pattern-parser";
+export * from "./parse-pattern";
