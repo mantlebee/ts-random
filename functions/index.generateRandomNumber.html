@@ -14,7 +14,7 @@
 <section class="tsd-panel">
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="generaterandomnumber"><span class="tsd-kind-call-signature">generateRandomNumber</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">max</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">min</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-kind-parameter">decimals</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#generaterandomnumber" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="generaterandomnumber"><span class="tsd-kind-call-signature">generateRandomNumber</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">max</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">min</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">decimals</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?:</span> <a href="../types/index.RandomOptions.html" class="tsd-signature-type tsd-kind-type-alias">RandomOptions</a><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#generaterandomnumber" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Generates a random integer/float number between the given min and max values, both included.
 To return an integer leave <code>decimals</code> to 0.
@@ -32,25 +32,34 @@ max, has the same chance to be generated.</p>
 </div></li>
 <li><span><span class="tsd-kind-parameter">decimals</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></span>
 <div class="tsd-comment tsd-typography"><p>Digits after the decimals point.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">options</span>: <a href="../types/index.RandomOptions.html" class="tsd-signature-type tsd-kind-type-alias">RandomOptions</a><span class="tsd-signature-symbol"> = {}</span></span>
+<div class="tsd-comment tsd-typography"><p><code>random</code>, the generator to use instead of <code>Math.random</code>.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>a random number between min and max, both included.</p>
 
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example">Example<a href="#example" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random number between 0 and 100.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">100</span><span class="hl-1">)</span><br/><span class="hl-9">// eg. 42</span>
+<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">100</span><span class="hl-1">)</span><br/><span class="hl-8">// eg. 42</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-1">Example<a href="#example-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random number between 1 and 10.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">10</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">)</span><br/><span class="hl-9">// eg. 7</span>
+<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">10</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">)</span><br/><span class="hl-8">// eg. 7</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-2">Example<a href="#example-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random number between 0 and 1, with 2 decimals.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-8">1</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">2</span><span class="hl-1">)</span><br/><span class="hl-9">// eg. 0.42</span>
+<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-7">0</span><span class="hl-1">, </span><span class="hl-7">2</span><span class="hl-1">)</span><br/><span class="hl-8">// eg. 0.42</span>
+</code><button type="button">Copy</button></pre>
+
+</div>
+<div class="tsd-tag-example">
+<h4 class="tsd-anchor-link" id="example-3">Example<a href="#example-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates the same number between 1 and 10 at every run.</p>
+<pre><code class="ts"><span class="hl-0">generateRandomNumber</span><span class="hl-1">(</span><span class="hl-7">10</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">, </span><span class="hl-7">0</span><span class="hl-1">, { </span><span class="hl-4">random:</span><span class="hl-1"> </span><span class="hl-0">createSeededRandom</span><span class="hl-1">(</span><span class="hl-7">42</span><span class="hl-1">) })</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
@@ -59,7 +68,7 @@ max, has the same chance to be generated.</p>
 non-negative integer, or if no number with <code>decimals</code> digits is between min and max.</p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/20299c2bee654f3a806521eae46109a3397c8336/src/numbers/generate-random-number.ts#L31">src/numbers/generate-random-number.ts:31</a></li></ul></aside></div></li></ul></section></div>
+<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/5597a12bb590d5c1eb10320585d8b0644b698840/src/numbers/generate-random-number.ts#L39">src/numbers/generate-random-number.ts:39</a></li></ul></aside></div></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

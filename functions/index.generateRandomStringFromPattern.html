@@ -14,7 +14,7 @@
 <section class="tsd-panel">
 <ul class="tsd-signatures">
 <li class="">
-<div class="tsd-signature tsd-anchor-link" id="generaterandomstringfrompattern"><span class="tsd-kind-call-signature">generateRandomStringFromPattern</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">pattern</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><a href="#generaterandomstringfrompattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
+<div class="tsd-signature tsd-anchor-link" id="generaterandomstringfrompattern"><span class="tsd-kind-call-signature">generateRandomStringFromPattern</span><span class="tsd-signature-symbol">(</span><br/>    <span class="tsd-kind-parameter">pattern</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span><br/>    <span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">?:</span> <a href="../types/index.RandomOptions.html" class="tsd-signature-type tsd-kind-type-alias">RandomOptions</a><span class="tsd-signature-symbol">,</span><br/><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><a href="#generaterandomstringfrompattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Generates a random string from the given pattern. The length of the string depends on pattern itself.
 Patterns allow to generate strings like telephone numbers, credit card numbers, banking IBAN, ecc.
@@ -36,32 +36,35 @@ Repeater brackets, after <code>A</code>, <code>a</code> or <code>0</code>:
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">pattern</span>: <span class="tsd-signature-type">string</span></span>
 <div class="tsd-comment tsd-typography"><p>Pattern for the random string.</p>
+</div></li>
+<li><span><span class="tsd-kind-parameter">options</span>: <a href="../types/index.RandomOptions.html" class="tsd-signature-type tsd-kind-type-alias">RandomOptions</a><span class="tsd-signature-symbol"> = {}</span></span>
+<div class="tsd-comment tsd-typography"><p><code>random</code>, the generator to use instead of <code>Math.random</code>.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>a random string from the given pattern.</p>
 
 <div class="tsd-comment tsd-typography">
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example">Example<a href="#example" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random telephone number.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;+000-00000&quot;</span><span class="hl-1">) </span><span class="hl-9">// or &quot;+0{3}-0{5}&quot;</span><br/><span class="hl-9">// eg. +333-41187</span>
+<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;+000-00000&quot;</span><span class="hl-1">) </span><span class="hl-8">// or &quot;+0{3}-0{5}&quot;</span><br/><span class="hl-8">// eg. +333-41187</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-1">Example<a href="#example-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random credit card number.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">) </span><span class="hl-9">// or &quot;0{4}-0{4}-0{4}-0{4}&quot;</span><br/><span class="hl-9">// eg. 3244-6512-9983-2379</span>
+<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;0000-0000-0000-0000&quot;</span><span class="hl-1">) </span><span class="hl-8">// or &quot;0{4}-0{4}-0{4}-0{4}&quot;</span><br/><span class="hl-8">// eg. 3244-6512-9983-2379</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-2">Example<a href="#example-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random italian IBAN compliant string.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">)</span><br/><span class="hl-9">// eg. IT60X0542811101000000123456</span>
+<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;(IT)00A0{22}&quot;</span><span class="hl-1">)</span><br/><span class="hl-8">// eg. IT60X0542811101000000123456</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-3">Example<a href="#example-3" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random string with first letter uppercase, followed by 8 to 12
 lowercase letters (9 to 13 chars in total).</p>
-<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;Aa{8,12}&quot;</span><span class="hl-1">)</span><br/><span class="hl-9">// eg. Rdnaetdaw</span>
+<pre><code class="ts"><span class="hl-0">generateRandomStringFromPattern</span><span class="hl-1">(</span><span class="hl-2">&quot;Aa{8,12}&quot;</span><span class="hl-1">)</span><br/><span class="hl-8">// eg. Rdnaetdaw</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
@@ -72,7 +75,7 @@ lowercase letters (9 to 13 chars in total).</p>
 <h4 class="tsd-anchor-link" id="throws-1">Throws<a href="#throws-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>RangeError if the min of a repeater is greater than its max, e.g. <code>a{12,8}</code>.</p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/20299c2bee654f3a806521eae46109a3397c8336/src/strings/generate-random-string-from-pattern.ts#L48">src/strings/generate-random-string-from-pattern.ts:48</a></li></ul></aside></div></li></ul></section></div>
+<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/5597a12bb590d5c1eb10320585d8b0644b698840/src/strings/generate-random-string-from-pattern.ts#L50">src/strings/generate-random-string-from-pattern.ts:50</a></li></ul></aside></div></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

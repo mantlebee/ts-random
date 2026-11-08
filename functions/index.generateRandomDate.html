@@ -35,7 +35,8 @@ The given dates are not modified.</p>
 <div class="tsd-comment tsd-typography"><p>Starting date range, default is 1970/01/01 00:00:00 in local time.</p>
 </div></li>
 <li><span><span class="tsd-kind-parameter">options</span>: <a href="../types/index.GenerateRandomDateOptions.html" class="tsd-signature-type tsd-kind-type-alias">GenerateRandomDateOptions</a><span class="tsd-signature-symbol"> = {}</span></span>
-<div class="tsd-comment tsd-typography"><p>Hours (0-23), minutes (0-59) and seconds (0-59) allowed, both included.</p>
+<div class="tsd-comment tsd-typography"><p>Hours (0-23), minutes (0-59) and seconds (0-59) allowed,
+both included, and <code>random</code>, the generator to use instead of <code>Math.random</code>.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4><p>a random date in the given range.</p>
 
@@ -48,7 +49,14 @@ The given dates are not modified.</p>
 </div>
 <div class="tsd-tag-example">
 <h4 class="tsd-anchor-link" id="example-1">Example<a href="#example-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates a random date of 2024, during the office hours.</p>
-<pre><code class="ts"><span class="hl-0">generateRandomDate</span><span class="hl-1">(</span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-8">2024</span><span class="hl-1">, </span><span class="hl-8">11</span><span class="hl-1">, </span><span class="hl-8">31</span><span class="hl-1">, </span><span class="hl-8">23</span><span class="hl-1">, </span><span class="hl-8">59</span><span class="hl-1">, </span><span class="hl-8">59</span><span class="hl-1">), </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-8">2024</span><span class="hl-1">, </span><span class="hl-8">0</span><span class="hl-1">, </span><span class="hl-8">1</span><span class="hl-1">), {</span><br/><span class="hl-1">  </span><span class="hl-4">hoursFrom:</span><span class="hl-1"> </span><span class="hl-8">9</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">hoursTo:</span><span class="hl-1"> </span><span class="hl-8">17</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+<pre><code class="ts"><span class="hl-0">generateRandomDate</span><span class="hl-1">(</span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-7">2024</span><span class="hl-1">, </span><span class="hl-7">11</span><span class="hl-1">, </span><span class="hl-7">31</span><span class="hl-1">, </span><span class="hl-7">23</span><span class="hl-1">, </span><span class="hl-7">59</span><span class="hl-1">, </span><span class="hl-7">59</span><span class="hl-1">), </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-7">2024</span><span class="hl-1">, </span><span class="hl-7">0</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">), {</span><br/><span class="hl-1">  </span><span class="hl-4">hoursFrom:</span><span class="hl-1"> </span><span class="hl-7">9</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">hoursTo:</span><span class="hl-1"> </span><span class="hl-7">17</span><span class="hl-1">,</span><br/><span class="hl-1">})</span>
+</code><button type="button">Copy</button></pre>
+
+</div>
+<div class="tsd-tag-example">
+<h4 class="tsd-anchor-link" id="example-2">Example<a href="#example-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Generates the same date of 2024 at every run: with a seeded generator, pass
+<code>endDate</code> too, as its default is now.</p>
+<pre><code class="ts"><span class="hl-0">generateRandomDate</span><span class="hl-1">(</span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-7">2024</span><span class="hl-1">, </span><span class="hl-7">11</span><span class="hl-1">, </span><span class="hl-7">31</span><span class="hl-1">, </span><span class="hl-7">23</span><span class="hl-1">, </span><span class="hl-7">59</span><span class="hl-1">, </span><span class="hl-7">59</span><span class="hl-1">), </span><span class="hl-5">new</span><span class="hl-1"> </span><span class="hl-0">Date</span><span class="hl-1">(</span><span class="hl-7">2024</span><span class="hl-1">, </span><span class="hl-7">0</span><span class="hl-1">, </span><span class="hl-7">1</span><span class="hl-1">), {</span><br/><span class="hl-1">  </span><span class="hl-4">random:</span><span class="hl-1"> </span><span class="hl-0">createSeededRandom</span><span class="hl-1">(</span><span class="hl-7">42</span><span class="hl-1">),</span><br/><span class="hl-1">})</span>
 </code><button type="button">Copy</button></pre>
 
 </div>
@@ -58,7 +66,7 @@ if an option is out of its range or its <code>from</code> is greater than its <c
 if no date in the range has an allowed time.</p>
 </div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/20299c2bee654f3a806521eae46109a3397c8336/src/dates/generate-random-date.ts#L110">src/dates/generate-random-date.ts:110</a></li></ul></aside></div></li></ul></section></div>
+<li>Defined in <a href="https://github.com/mantlebee/ts-random/blob/5597a12bb590d5c1eb10320585d8b0644b698840/src/dates/generate-random-date.ts#L125">src/dates/generate-random-date.ts:125</a></li></ul></aside></div></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
