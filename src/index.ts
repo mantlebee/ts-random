@@ -5,4 +5,5 @@ export * from "./dates";
 export * from "./numbers";
 export * from "./passwords";
 export * from "./secure";
+export * from "./seed";
 export * from "./strings";

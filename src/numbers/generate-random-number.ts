@@ -1,3 +1,5 @@
+import { RandomOptions } from "@/seed/random-fn";
+
 /**
  * Generates a random integer/float number between the given min and max values, both included.
  * To return an integer leave `decimals` to 0.
@@ -21,9 +23,15 @@
  * generateRandomNumber(1, 0, 2)
  * // eg. 0.42
  * ```
+ * @example
+ * Generates the same number between 1 and 10 at every run.
+ * ```ts
+ * generateRandomNumber(10, 1, 0, { random: createSeededRandom(42) })
+ * ```
  * @param max Maximum number that can be generated.
  * @param min Minimum number that can be generated.
  * @param decimals Digits after the decimals point.
+ * @param options `random`, the generator to use instead of `Math.random`.
  * @returns a random number between min and max, both included.
  * @throws RangeError if `min` is greater than `max`, if `decimals` is not a
  * non-negative integer, or if no number with `decimals` digits is between min and max.
@@ -32,6 +40,7 @@ export function generateRandomNumber(
   max: number,
   min = 0,
   decimals = 0,
+  options: RandomOptions = {},
 ): number {
   if (!Number.isInteger(decimals) || decimals < 0)
     throw new RangeError(`generateRandomNumber: invalid decimals ${decimals}`);
@@ -52,7 +61,7 @@ export function generateRandomNumber(
     throw new RangeError(
       `generateRandomNumber: no number with ${decimals} decimals between ${min} and ${max}`,
     );
-  const random =
-    scaledMin + Math.floor(Math.random() * (scaledMax - scaledMin + 1));
-  return random / factor;
+  const random = options.random ?? Math.random;
+  const value = scaledMin + Math.floor(random() * (scaledMax - scaledMin + 1));
+  return value / factor;
 }

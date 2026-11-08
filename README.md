@@ -4,7 +4,8 @@ Utility functions to generate random data or extract random data from lists.
 
 What changed in each version, and how to upgrade, is in the
 [release notes](https://github.com/mantlebee/ts-random/tree/main/docs/release-notes)
-([1.0.0](https://github.com/mantlebee/ts-random/blob/main/docs/release-notes/1.0.0.md)).
+([1.1.0](https://github.com/mantlebee/ts-random/blob/main/docs/release-notes/1.1.0.md),
+[1.0.0](https://github.com/mantlebee/ts-random/blob/main/docs/release-notes/1.0.0.md)).
 
 ## Installation
 
@@ -25,7 +26,7 @@ import { generateRandomPassword } from "@mantlebee/ts-random/passwords";
 ```
 
 The areas are `arrays`, `booleans`, `colors`, `dates`, `numbers`, `passwords`,
-`secure` and `strings`.
+`secure`, `seed` and `strings`.
 
 Utilities about random data generation are separated by return type:
 
@@ -39,6 +40,8 @@ Utilities about random data generation are separated by return type:
   - [`generateRandomNumber`](#generaterandomnumber)
 - [Password](#password)
   - [`generateRandomPassword`](#generaterandompassword)
+- [Seed](#seed)
+  - [`createSeededRandom`](#createseededrandom)
 - [Secure](#secure)
   - [`generateSecureRandomInteger`](#generatesecurerandominteger)
   - [`extractSecureRandomItem`](#extractsecurerandomitem)
@@ -55,8 +58,58 @@ There is also a section about random data extraction from lists:
 
 Functions with `SecureRandom` in the name, and `generateRandomPassword`, use a
 cryptographically secure random generator (Web Crypto, available in browsers and
-in Node.js 19+). The others use `Math.random`: don't use them for passwords,
-tokens or other secrets.
+in Node.js 19+). The others use `Math.random`, or the generator given in their
+`random` option (see [Reproducible data](#reproducible-data)): don't use them
+for passwords, tokens or other secrets.
+
+## Reproducible data
+
+The functions that use `Math.random` accept a `random` option, a generator
+with the same contract as `Math.random`. With the one returned by
+`createSeededRandom`, they generate the same values at every run, in Node.js
+and in browsers: a failed test, a story or an E2E fixture can be reproduced
+from its seed.
+
+```ts
+import {
+  createSeededRandom,
+  extractRandomItem,
+  generateRandomBoolean,
+  generateRandomDate,
+  generateRandomNumber,
+  generateRandomStringFromPattern,
+} from "@mantlebee/ts-random";
+
+const random = createSeededRandom(42);
+
+// The same 5 rows at every run.
+const users = Array.from({ length: 5 }, (_, i) => ({
+  id: i + 1,
+  name: extractRandomItem(["John", "Jane", "Josh", "Jasper"], false, {
+    random,
+  }),
+  phone: generateRandomStringFromPattern("+39 0{3} 0{7}", { random }),
+  age: generateRandomNumber(80, 18, 0, { random }),
+  active: generateRandomBoolean({ random }),
+  // A fixed `endDate`: its default, now, changes at every run.
+  signedUpAt: generateRandomDate(new Date(2024, 11, 31), new Date(2024, 0, 1), {
+    random,
+  }),
+}));
+```
+
+- The rule is the same for every function: the ones that have an `options`
+  object accept `random` in it, such as `generateRandomDate`; the others accept
+  a last, optional parameter `options?: { random?: RandomFn }`. Without it they
+  use `Math.random`, as before.
+- The generator has a state: the values depend on the seed **and** on the
+  calls made before with it. Use a generator for each fixture, or a seed for
+  each test, so adding a field or a row doesn't change the others.
+- Seeded values are not affected by the time zone, except for
+  `generateRandomDate`, which generates local dates.
+- Seeded generators are predictable by design: never use them for secrets. The
+  [secure](#secure) functions and `generateRandomPassword` don't accept a
+  generator and always use Web Crypto.
 
 ## Errors
 
@@ -100,6 +153,7 @@ Extracts a random item from an array. The extracted item can be removed or not f
 function extractRandomItem<TItem>(
   items: List<TItem>,
   extractPhysically = false,
+  options: { random?: RandomFn } = {},
 ): TItem;
 ```
 
@@ -127,6 +181,7 @@ Extracts a sub-list of items from an array. The length of the sub-list is random
 function extractRandomItems<TItem>(
   items: List<TItem>,
   extractPhysically = false,
+  options: { random?: RandomFn } = {},
 ): List<TItem>;
 ```
 
@@ -155,7 +210,7 @@ Utilities about random boolean generation.
 Generates a random boolean value.
 
 ```ts
-function generateRandomBoolean(): boolean;
+function generateRandomBoolean(options: { random?: RandomFn } = {}): boolean;
 ```
 
 Examples:
@@ -179,6 +234,7 @@ function generateRandomColor(
   transparent = false,
   from: IColor = new Color(0, 0, 0),
   to: IColor = new Color(255, 255, 255),
+  options: { random?: RandomFn } = {},
 ): IColor;
 ```
 
@@ -216,6 +272,7 @@ type GenerateRandomDateOptions = {
   minutesTo?: number; // 0-59, default 59
   secondsFrom?: number; // 0-59, default 0
   secondsTo?: number; // 0-59, default 59
+  random?: RandomFn; // default Math.random
 };
 
 function generateRandomDate(
@@ -253,7 +310,12 @@ Utilities about random integer and float number generation.
 Generates a random integer/float number between the given min and max values, both included. To return an integer leave `decimals` to 0. Every number with `decimals` digits after the decimal point, between min and max, has the same chance to be generated. It throws a `RangeError` if `min` is greater than `max`, if `decimals` is not a non-negative integer, or if no number with `decimals` digits is between min and max.
 
 ```ts
-function generateRandomNumber(max: number, min = 0, decimals = 0): number;
+function generateRandomNumber(
+  max: number,
+  min = 0,
+  decimals = 0,
+  options: { random?: RandomFn } = {},
+): number;
 ```
 
 Examples:
@@ -320,9 +382,38 @@ generateRandomPassword([
 ]); // 12 chars, eg. "kd-qe_wnz-ab"
 ```
 
+### Seed
+
+Utilities to generate reproducible data: see [Reproducible data](#reproducible-data).
+
+#### `createSeededRandom`
+
+Creates a random generator that returns the same sequence of numbers for the same seed, in Node.js and in browsers. Like `Math.random`, each call returns a number in [0, 1). It uses mulberry32, a small generator with a 32-bit state: good for test data, not for secrets. `seed` must be an integer, otherwise a `RangeError` is thrown; seeds that differ by a multiple of 2^32 generate the same sequence.
+
+```ts
+type RandomFn = () => number;
+
+function createSeededRandom(seed: number): RandomFn;
+```
+
+Examples:
+
+```ts
+import { createSeededRandom, generateRandomNumber } from "@mantlebee/ts-random";
+
+const random = createSeededRandom(42);
+random(); // 0.6011037519201636, at every run
+
+// The same number between 1 and 10 at every run.
+generateRandomNumber(10, 1, 0, { random: createSeededRandom(42) });
+```
+
 ### Secure
 
 Utilities that use a cryptographically secure random generator: Web Crypto (`globalThis.crypto.getRandomValues`), available in browsers and in Node.js 19+. Use them, or `generateRandomPassword`, for passwords, tokens or other secrets.
+
+They, and `generateRandomPassword`, don't accept a `random` option: a seeded or
+custom generator would make the secrets predictable.
 
 #### `generateSecureRandomInteger`
 
@@ -385,7 +476,11 @@ Utilities to generate random strings. It is possible to choose between a chars a
 Generates a random string from the given chars and of the given length.
 
 ```ts
-function generateRandomStringFromChars(chars: string, length: number): string;
+function generateRandomStringFromChars(
+  chars: string,
+  length: number,
+  options: { random?: RandomFn } = {},
+): string;
 ```
 
 Examples:
@@ -423,7 +518,10 @@ Patterns are defined by placeholders, escape brackets and repeater brackets. Any
 It throws a `SyntaxError` if an escape bracket is not closed, and a `RangeError` if the min of a repeater is greater than its max, e.g. `a{12,8}`.
 
 ```ts
-function generateRandomStringFromPattern(pattern: string): string;
+function generateRandomStringFromPattern(
+  pattern: string,
+  options: { random?: RandomFn } = {},
+): string;
 ```
 
 Examples:

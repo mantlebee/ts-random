@@ -17,7 +17,10 @@ const targetDir = "dist/esm";
 
 const relativeSpecifier = /(\bfrom\s+|\bimport\s*\(\s*)"(\.{1,2}\/[^"]*)"/g;
 
-function withExtension(fromDir, specifier) {
+function withExtension(fromDir, specifierWithExtension) {
+  // tsc-alias adds `.js` to the aliases of type-only modules, which have a
+  // declaration but no JavaScript file.
+  const specifier = specifierWithExtension.replace(/\.js$/, "");
   if (existsSync(join(fromDir, `${specifier}.d.ts`))) return `${specifier}.mjs`;
   if (existsSync(join(fromDir, specifier, "index.d.ts")))
     return `${specifier}/index.mjs`;
