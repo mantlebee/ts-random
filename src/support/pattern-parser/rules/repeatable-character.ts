@@ -5,6 +5,7 @@ import {
 } from "@mantlebee/ts-core";
 
 import { generateRandomNumber } from "@/numbers/generate-random-number";
+import { RandomFn } from "@/seed/random-fn";
 import { generateRandomStringFromChars } from "@/strings/generate-random-string-from-chars";
 
 import { PatternRule } from "../pattern-rule";
@@ -28,30 +29,37 @@ const isRepeatableCharacter = (
  * Number of chars of a repeater, `X{n}` or `X{n,M}`: the regex of the rule
  * guarantees one or two numbers. `parseInt` ignores the closing bracket.
  */
-const getRepeat = (match: string) => {
+const getRepeat = (match: string, random: RandomFn) => {
   const [min, max = min] = match
     .substring(2)
     .split(",")
     .map((a) => parseInt(a)) as [number, number?];
-  return generateRandomNumber(max, min);
+  return generateRandomNumber(max, min, 0, { random });
 };
 
 /**
  * Generates a random digit for `0`, uppercase letter for `A` and lowercase
  * letter for `a`; with a repeater, `X{n}` or `X{n,M}`, it generates n to M of them.
  */
-export const matchRepeatableCharacter: PatternRule = (pattern, index) => {
+export const matchRepeatableCharacter: PatternRule = (
+  pattern,
+  index,
+  random,
+) => {
   const char = pattern[index];
   if (!isRepeatableCharacter(char)) return null;
   const chars = CharsMap[char]();
   if (/^.\{\d+(,\d+)?\}/.test(pattern.substring(index))) {
     // The regex guarantees the closing bracket.
     const endIndex = pattern.indexOf("}", index);
-    const repeat = getRepeat(pattern.substring(index, endIndex + 1));
+    const repeat = getRepeat(pattern.substring(index, endIndex + 1), random);
     return {
       length: endIndex - index + 1,
-      value: generateRandomStringFromChars(chars, repeat),
+      value: generateRandomStringFromChars(chars, repeat, { random }),
     };
   }
-  return { length: 1, value: generateRandomStringFromChars(chars, 1) };
+  return {
+    length: 1,
+    value: generateRandomStringFromChars(chars, 1, { random }),
+  };
 };

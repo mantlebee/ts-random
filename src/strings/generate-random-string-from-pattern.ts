@@ -1,3 +1,4 @@
+import { RandomOptions } from "@/seed/random-fn";
 import { parsePattern } from "@/support/pattern-parser/parse-pattern";
 
 /**
@@ -41,10 +42,14 @@ import { parsePattern } from "@/support/pattern-parser/parse-pattern";
  * // eg. Rdnaetdaw
  * ```
  * @param pattern Pattern for the random string.
+ * @param options `random`, the generator to use instead of `Math.random`.
  * @returns a random string from the given pattern.
  * @throws SyntaxError if an escape bracket is not closed.
  * @throws RangeError if the min of a repeater is greater than its max, e.g. `a{12,8}`.
  */
-export function generateRandomStringFromPattern(pattern: string): string {
-  return parsePattern(pattern);
+export function generateRandomStringFromPattern(
+  pattern: string,
+  options: RandomOptions = {},
+): string {
+  return parsePattern(pattern, options.random ?? Math.random);
 }

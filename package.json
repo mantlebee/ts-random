@@ -1,6 +1,6 @@
 {
   "name": "@mantlebee/ts-random",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Utility functions to generate random data.",
   "main": "dist/index.js",
   "module": "dist/esm/index.mjs",
@@ -86,6 +86,16 @@
         "default": "./dist/secure/index.js"
       }
     },
+    "./seed": {
+      "import": {
+        "types": "./dist/esm/seed/index.d.mts",
+        "default": "./dist/esm/seed/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/seed/index.d.ts",
+        "default": "./dist/seed/index.js"
+      }
+    },
     "./strings": {
       "import": {
         "types": "./dist/esm/strings/index.d.mts",
@@ -120,6 +130,9 @@
       ],
       "secure": [
         "./dist/src/secure/index.d.ts"
+      ],
+      "seed": [
+        "./dist/src/seed/index.d.ts"
       ],
       "strings": [
         "./dist/src/strings/index.d.ts"

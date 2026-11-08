@@ -1,4 +1,5 @@
 import { generateRandomNumber } from "@/numbers/generate-random-number";
+import { RandomFn } from "@/seed/random-fn";
 
 import { TimeGrid, TimeRange } from "./time-grid";
 
@@ -9,6 +10,11 @@ export type GenerateRandomDateOptions = {
   minutesTo?: number;
   secondsFrom?: number;
   secondsTo?: number;
+  /**
+   * Generator used instead of `Math.random`, e.g. one returned by
+   * `createSeededRandom`. Default is `Math.random`.
+   */
+  random?: RandomFn;
 };
 
 const MillisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -99,9 +105,18 @@ const getDaysBetween = (startDate: Date, endDate: Date) =>
  *   hoursTo: 17,
  * })
  * ```
+ * @example
+ * Generates the same date of 2024 at every run: with a seeded generator, pass
+ * `endDate` too, as its default is now.
+ * ```ts
+ * generateRandomDate(new Date(2024, 11, 31, 23, 59, 59), new Date(2024, 0, 1), {
+ *   random: createSeededRandom(42),
+ * })
+ * ```
  * @param endDate Ending date range, default is now.
  * @param startDate Starting date range, default is 1970/01/01 00:00:00 in local time.
- * @param options Hours (0-23), minutes (0-59) and seconds (0-59) allowed, both included.
+ * @param options Hours (0-23), minutes (0-59) and seconds (0-59) allowed,
+ * both included, and `random`, the generator to use instead of `Math.random`.
  * @returns a random date in the given range.
  * @throws RangeError if a date is invalid, if `startDate` is after `endDate`,
  * if an option is out of its range or its `from` is greater than its `to`, or
@@ -119,6 +134,7 @@ export function generateRandomDate(
     minutesTo = 59,
     secondsFrom = 0,
     secondsTo = 59,
+    random = Math.random,
   } = options;
   if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime()))
     throw new RangeError("generateRandomDate: invalid date");
@@ -140,7 +156,7 @@ export function generateRandomDate(
       "generateRandomDate: no date in the range has an allowed time",
     );
   for (let attempt = 0; attempt < MaxAttempts; ++attempt) {
-    const index = generateRandomNumber(endIndex - 1, firstIndex);
+    const index = generateRandomNumber(endIndex - 1, firstIndex, 0, { random });
     const day = Math.floor(index / grid.count);
     const [hours, minutes, seconds] = grid.getTime(index % grid.count);
     const date = new Date(
